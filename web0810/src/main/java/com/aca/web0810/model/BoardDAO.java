@@ -3,7 +3,10 @@ package com.aca.web0810.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.aca.web0810.domain.Board;
 
@@ -55,5 +58,116 @@ public class BoardDAO {
 				}
 		}
 		return result;
+	}
+	
+	public List selectAll() {
+		Connection con=null;
+		PreparedStatement pstmt =null;
+		ResultSet rs =null;
+		List<Board> list = new ArrayList<Board>();
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con=DriverManager.getConnection(url, user, password);
+			String sql="select * from board order by board_id desc";
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			//rs는 fianlly문에서 con, pstmt와 함께 곧 닫히게 되므로 반환할 수 없다
+			//rs를 대신할 객체를 만들어 이용하자
+			//테이블의 레코드 1건은 DTO인스턴스를 사용하고
+			//여러개의 DTO인스턴스들은 LIST로 관리하자
+			
+			while(rs.next()) {
+				Board board = new Board();
+				board.setBoard_id(rs.getInt("board_id"));
+				board.setTitle(rs.getString("title"));
+				board.setWriter(rs.getString("writer"));
+				board.setContent(rs.getString("content"));
+				board.setRegdate(rs.getString("regdate"));
+				board.setHit(rs.getInt("hit"));
+				list.add(board);
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs!=null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if(pstmt!=null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if(con!=null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return list;
+		
+	}
+	
+	//레코드 1건 가져오기
+	public Board select(int board_id) {
+		Connection con =null;
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		String sql = "select * from board where board_id=?";
+		Board board = null;
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con=DriverManager.getConnection(url, user, password);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, board_id);
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				board = new Board();
+				
+				board.setBoard_id(rs.getInt("board_id"));
+				board.setTitle(rs.getString("title"));
+				board.setWriter(rs.getString("writer"));
+				board.setContent(rs.getString("content"));
+				board.setRegdate(rs.getString("regdate"));
+				board.setHit(rs.getInt("hit"));
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs!=null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if(pstmt!=null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if(con!=null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return board;
 	}
 }

@@ -1,7 +1,7 @@
 package com.aca.web0810.domain;
 
 /*로직이 아닌 데이터를 보관하기 위한 용도
- * 즉 Board는 게시물 한건을 보관하기 위함
+ * 즉 Board는 게시물 한건을 보관하기 위함 DTO
  */
 public class Board {
 	private int board_id;
