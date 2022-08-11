@@ -57,11 +57,19 @@ input[type=button]:hover {
 }
 </style>
 <script>
-function regist(){
-	form1.action="/notice/regist";
-	form1.method="post";
-	form1.submit();
+function del(){
+	if(confirm("삭제하시겠습니까?")){
+		location.href="/notice/delete.jsp?board_id=<%=board.getBoard_id()%>"
+	}
 }
+function edit(){
+	if(confirm("수정하시겠습니까?")){
+		form1.action="/notice/edit.jsp";
+		form1.method="post";
+		form1.submit();
+	}
+}
+
 </script>
 </head>
 <body>
@@ -70,10 +78,13 @@ function regist(){
 
 	<div class="container">
 		<form name="form1">
+			<input type="hidden" name="board_id" value="<%=board.getBoard_id()%>">
 			<input type="text" id="fname" name="title" value="<%=board.getTitle()%>"> 
 			<input type="text" id="lname" name="writer" value="<%=board.getWriter()%>">
 			<textarea id="subject" name="content" style="height: 200px"><%=board.getContent()%></textarea>
-			<input type="button" value="Button" onClick="regist()">
+			<input type="button" value="수정" onClick="edit()">
+			<input type="button" value="삭제" onClick="del()">
+			<input type="button" value="목록보기" onClick="location.href='/notice/list.jsp'">
 		</form>
 	</div>
 

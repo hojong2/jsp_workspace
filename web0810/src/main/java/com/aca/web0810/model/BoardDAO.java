@@ -170,4 +170,76 @@ public class BoardDAO {
 		}
 		return board;
 	}
+	
+	//한건 삭제
+	public int delete(int board_id) {
+		Connection con =null;
+		PreparedStatement pstmt = null;
+		int result=0;
+		String sql="delete from board where board_id=?";
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con=DriverManager.getConnection(url, user, password);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, board_id);
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if(con!=null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+			return result;
+	}
+	//한건 수정
+	public int edit(Board board) {
+		Connection con =null;
+		PreparedStatement pstmt = null;
+		int result=0;
+		String sql="update board set title=?, writer=?, content=? where board_id=?";
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con=DriverManager.getConnection(url, user, password);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, board.getTitle());
+			pstmt.setString(2, board.getWriter());
+			pstmt.setString(3, board.getContent());
+			pstmt.setInt(4, board.getBoard_id());
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if(con!=null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+			return result;
+	}
 }
