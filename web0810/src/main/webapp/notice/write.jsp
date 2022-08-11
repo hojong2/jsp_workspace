@@ -56,9 +56,9 @@ function regist(){
 
 	<div class="container">
 		<form name="form1">
-			<input type="text" id="fname" name="firstname"placeholder="제목"> 
-			<input type="text" id="lname" name="lastname" placeholder="작성자 입력">
-			<textarea id="subject" name="subject" placeholder="내용 입력" style="height: 200px"></textarea>
+			<input type="text" id="fname" name="title"placeholder="제목"> 
+			<input type="text" id="lname" name="writer" placeholder="작성자 입력">
+			<textarea id="subject" name="content" placeholder="내용 입력" style="height: 200px"></textarea>
 			<input type="button" value="Button" onClick="regist()">
 		</form>
 	</div>

@@ -7,15 +7,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.aca.web0810.model.BoardManager;
+import com.aca.web0810.domain.Board;
+import com.aca.web0810.model.BoardDAO;
 
 public class WriteController extends HttpServlet{
-	BoardManager boardManager;
+	BoardDAO boardManager;
 	
 	//이 서블릿 클래스가 최최의 접속자에 의해 인스튼서화 될 때, 딱 한번 호출되는 생명주기 메서드
 	@Override
 	public void init() throws ServletException {
-		boardManager = new BoardManager();
+		boardManager = new BoardDAO();
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,8 +34,13 @@ public class WriteController extends HttpServlet{
 		//클래스를 정의하여, 인스턴스 생성후 변수들을 보관해놓는 기법을 이용한다. 이때 정의되는 클래스는
 		//로직을 작성하기 위함이 아니라, 오직 데이터만을 담고 가지고 다니는 용도라 하며
 		//Data Transfer Object (DTO), Value Object (VO)
-		//asdf
-		int result=boardManager.insert(title, writer, content);
+		Board board = new Board();
+		board.setTitle(title);
+		board.setWriter(writer);
+		board.setContent(content);
+		
+		
+		int result=boardManager.insert(board);
 		out.print("<script>");
 		if(result==0) {
 			out.print("alert('등록실패');");

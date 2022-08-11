@@ -11,14 +11,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import com.aca.web0810.model.BoardManager;
+import com.aca.web0810.domain.Board;
+import com.aca.web0810.model.BoardDAO;
 
 /*웹기반이 아닌 독립실행형 기반의 GUI모드로 등록폼을 정의하자*/
 public class FromWin extends JFrame{
 	JTextField t_title, t_writer;
 	JTextArea area;
 	JButton bt; //has a 관계 : 객체가 다른 객체를 멤버로 보유한 관계
-	BoardManager boardmanager;
+	BoardDAO boardmanager;
 	
 	public FromWin(){
 		t_title = new JTextField(17);
@@ -26,7 +27,7 @@ public class FromWin extends JFrame{
 		area = new JTextArea(10,23);
 		area.setBackground(Color.CYAN);
 		bt=new JButton("등록");
-		boardmanager=new BoardManager();
+		boardmanager=new BoardDAO();
 		
 		//레이아웃 스타일 명시
 		this.setLayout(new FlowLayout()); //일렬로 배치되는 레이아웃
@@ -56,8 +57,14 @@ public class FromWin extends JFrame{
 		String title=t_title.getText();
 		String writer=t_writer.getText();
 		String content=area.getText();
-		boardmanager.insert(title, writer, content);
-		int result=boardmanager.insert(title, writer, content);
+		
+		Board board = new Board();
+		board.setTitle(title);
+		board.setWriter(writer);
+		board.setContent(content);
+		
+		boardmanager.insert(board);
+		int result=boardmanager.insert(board);
 		if (result==0){
 			JOptionPane.showMessageDialog(this, "등록실패");
 		}else {
