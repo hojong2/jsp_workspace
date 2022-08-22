@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+function loadData(){
+	//아래와 같은 링크방식으로 서버에 데이터를 요청하면, 전체 페이지가 로드되어 
+	//새로고침이 발생한다. 따라서 현재 화면을 유지한 상태에서 백그라운드에서 서버에 데이터를 요청하는 ajax를 이용하면
+	//서버로부터 받은 데이터를 이용하여 화면의 일부에 적용할 수 있다.
+	//location.href="/test/data.jsp";
+	
+	//ajax를 구현하기 위한 핵심 객체는 XMLHttpRequest 객체이다
+	var xhttp=new XMLHttpRequest();
+	console.log("xhttp is ", xhttp);
+	
+	xhttp.onload=function(){
+		console.log(this.responseText); //서버로부터 받은 응답 데이터
+		document.querySelector("textarea").append(this.responseText);
+	}
+	
+	xhttp.open("GET", "/test/data.jsp", true);
+	xhttp.send();
+	
+	console.log("양형준 ㅄ");
+}
+
+window.addEventListener("load", function(){
+	//이 문서내의 모든 tag에 대해 DOM이 준비된 상태임
+	document.querySelector("button").addEventListener("click", function(){
+		loadData();
+	})
+})
+</script>
+</head>
+<body>
+
+	<button>불러오기</button>
+	<textarea style="width:200px"; height:150px;"></textarea>
+	
+</body>
+</html>

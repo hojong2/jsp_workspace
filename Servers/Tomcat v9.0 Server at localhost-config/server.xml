@@ -153,12 +153,8 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="web0810" path="/" reloadable="true" source="org.eclipse.jst.jee.server:web0810">
-      	<!-- 이 웹 어플리케이션이 사용하게 될 커넥션풀을 등록하자
-      		이와같이 자바코드가 아닌, 외부의 xml과 같은 자원에 정보를 이용하는 방법을 javaSE에서 JNDI로 지원
-      	 -->
-      </Context>
-      </Host>
+      
+      <Context docBase="web0812" path="/" reloadable="true" source="org.eclipse.jst.jee.server:web0812"/></Host>
     </Engine>
   </Service>
 </Server>
