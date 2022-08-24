@@ -1,17 +1,27 @@
+<%@page import="com.aca.web0812.domain.News"%>
+<%@page import="java.util.List"%>
+<%@page import="com.aca.web0812.news.model.NewsDAO"%>
 <%@page import="javax.print.attribute.HashPrintRequestAttributeSet"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%!
+	NewsDAO newsDAO = new NewsDAO();
+%>
 <%
-	int totalRecord=80;  //모든 레코드 수
-	int pageSize=7;  //한 페이지당 보여질 레코드 수
+	List<News> newsList = newsDAO.selectAll();
+	
+	int totalRecord=newsList.size();  //모든 레코드 수
+	int pageSize=5;  //한 페이지당 보여질 레코드 수
 	int totalPage=(int)Math.ceil((float)totalRecord/pageSize);
-	int blockSize=7;  //한 블럭당 보여질 페이지 수
+	int blockSize=10;  //한 블럭당 보여질 페이지 수
 	int currentPage=1;
 	if(request.getParameter("currentPage")!=null){
 		currentPage=Integer.parseInt(request.getParameter("currentPage"));
 	}
 	int firstPage=blockSize*(int)(currentPage/(float)(blockSize+(float)0.001))+1;
 	int lastPage=firstPage+blockSize-1;
-	int num=totalRecord-pageSize*(currentPage-1);
+	int curPos=(currentPage-1)*pageSize;
+	int num=totalRecord-curPos;
+
 %>
 <%="totalRecord는 "+totalRecord+"<br>" %>
 <%="pageSize는 "+pageSize+"<br>" %>
@@ -41,6 +51,19 @@ tr:nth-child(even) {
 	background-color: #f2f2f2;
 }
 
+input[type=button] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=button]:hover {
+  background-color: #45a049;
+}
+
 .page-style{
 	font-size:20px;
 	font-weight:bold;
@@ -62,12 +85,13 @@ tr:nth-child(even) {
 		페이징 처리는 결국 데이터에 대한 산수계산이므로, 개발자마다 본인 스스로 로직을 개발해야함 -->
 		<%for(int i =1; i<=pageSize; i++){%>
 		<%if(num<1)break; %>
+		<%News news=newsList.get(curPos++); %>
 		<tr>
 			<td><%=num--%></td>
-			<td>Smith</td>
-			<td>50</td>
-			<td>50</td>
-			<td>50</td>
+			<td><a href="/news/content.jsp?news_id=<%=news.getNews_id()%>"><%=news.getTitle()%></a></td>
+			<td><%=news.getWriter()%></td>
+			<td><%=news.getRegdate().substring(0,10)%></td>
+			<td><%=news.getHit()%></td>
 		</tr>
 		<%} %>
 		<tr>
@@ -89,7 +113,7 @@ tr:nth-child(even) {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="5"><button onClick="location.href='/news/regist.jsp';">뉴스작성</button></td>
+			<td colspan="5"><input type="button" name="뉴스작성" value="뉴스작성" onclick="location.href='/news/regist.jsp';"></td>
 		</tr>
 	</table>
 
