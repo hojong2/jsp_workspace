@@ -2,10 +2,14 @@ package com.aca.web0812.news.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+
 import com.aca.web0812.domain.Comments;
+import com.aca.web0812.domain.News;
 import com.aca.web0812.pool.ConnectionManager;
 import com.aca.web0812.pool.PoolManager;
 
@@ -40,5 +44,38 @@ public class CommentsDAO {
 	}
 	
 	//모든 레코드 가져오기
-	
+	public List selectAll(int news_id) {
+		List list = new ArrayList();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		con=manager.getConnection();
+		String sql="select * from comments where news_id=?";
+		 
+
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, news_id);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Comments comments = new Comments();
+				comments.setComments_id(rs.getInt("comments_id"));
+				News news = new News();
+				news.setNews_id(news_id);
+				comments.setNews(news);
+				comments.setDetail(rs.getString("detail"));
+				comments.setAuthor(rs.getString("author"));
+				comments.setWritedate(rs.getString("writedate"));
+				
+				list.add(comments);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			manager.freeConnection(con, pstmt, rs);
+		}
+		return list;
+	}
 }

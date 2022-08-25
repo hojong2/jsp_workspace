@@ -2,6 +2,7 @@ package com.aca.web0812.news;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -41,11 +42,14 @@ public class CommentsRegist extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
+		//뉴스기사에 딸려있는 댓글 가져오기
+		List<Comments> commentsList= commentsDAO.selectAll(news.getNews_id());
+		
 		//클라이언트에게 등록과 동시에, 지금까지 누적된 댓글 목록을 보내주자
 		//json표기를 일일히 손으로 표기하기에는 한계가 있다. 따라서 GSON을 사용한다.
 		Gson gson = new Gson();
 		
-		String json=gson.toJson(comments);
+		String json=gson.toJson(commentsList);
 		out.print(json);
 	}
 }
