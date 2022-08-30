@@ -83,8 +83,10 @@ $(document).ready(function(){  //addEventListener("load", function(){})와 동�
 		<tr>
 			<td><%=num--%></td>
 			<td>
+				<%if(reBoard.getDepth()>0){ %>
+					<img src="/res/images/reply.webp" id="reply" style="margin-left: <%=reBoard.getDepth()*10%>px;">	
+				<%} %>
 				<a href="/reboard/content.jsp?reboard_id=<%=reBoard.getReboard_id()%>"><%=reBoard.getTitle()%></a>
-				<img src="/res/images/reply.webp" id="reply">	
 			</td>
 			<td><%=reBoard.getWriter()%></td>
 			<td><%=reBoard.getRegdate()%></td>
@@ -92,7 +94,7 @@ $(document).ready(function(){  //addEventListener("load", function(){})와 동�
 		</tr>
 		<%} %>
 		<tr>
-			<td colspan="5"><input type="button" value="글등록"></td>
+			<td colspan="5"><button>글등록</button>
 		</tr>
 	</table>
 	<%@ include file="/inc/footer.jsp" %>

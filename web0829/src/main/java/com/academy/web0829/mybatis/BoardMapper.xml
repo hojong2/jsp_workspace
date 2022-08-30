@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Board">
+	<!-- 
+		앞으로 쿼리문은 java 클래스안에 두지 말고, mybatis의 xml에 작성하자
+		지금까지 DAO에 작성했던 상투적이고 거창햇던 JDBC코드를 사용하는 것이 아니라
+		개발자가 쿼리문에 집중할수 있고 유지보수성을 올리기 위해 SQL Mapper 중 하나인
+		Mybatis 프레임웍을 이용한다. (Hibernate 와 mybatis와는 약간의 차이가 있다)
+	 -->
+	 <insert id="insert" parameterType="Board">
+	 	insert into board(title, writer, content) values(#{title}, #{writer}, #{content})
+	 </insert>
+	 
+	 <select id="selectAll" resultType="com.academy.web0829.board.domain.Board">
+	 	select board_id, title, writer, regdate, hit from board order by board_id desc
+	 </select>
+</mapper>
