@@ -2,14 +2,37 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>web0829</display-name>
   <!-- 글 쓰기 요청 처리 서블릿 정의 -->
-  
-  <servlet>
-  	<servlet-name>registServlet</servlet-name>
-  	<servlet-class>com.academy.web0829.board.servlet.RegistServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>registServlet</servlet-name>
-  	<url-pattern>/board/regist</url-pattern>
-  </servlet-mapping>
+<!-- web.xml에는 서버 가동과 관련된 이벤트를 제어하는 리스너가 지원된다. -->
+	
+	<listener>
+		<listener-class>com.academy.web0829.listener.MyListener</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>registServlet</servlet-name>
+		<servlet-class>com.academy.web0829.board.servlet.RegistServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>registServlet</servlet-name>
+		<url-pattern>/board/regist</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>deleteServlet</servlet-name>
+		<servlet-class>com.academy.web0829.board.servlet.DeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>deleteServlet</servlet-name>
+		<url-pattern>/board/delete</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>editServlet</servlet-name>
+		<servlet-class>com.academy.web0829.board.servlet.EditServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>editServlet</servlet-name>
+		<url-pattern>/board/edit</url-pattern>
+	</servlet-mapping>
   
 </web-app>

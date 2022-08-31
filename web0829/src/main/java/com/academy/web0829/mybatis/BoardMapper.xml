@@ -9,11 +9,26 @@
 		개발자가 쿼리문에 집중할수 있고 유지보수성을 올리기 위해 SQL Mapper 중 하나인
 		Mybatis 프레임웍을 이용한다. (Hibernate 와 mybatis와는 약간의 차이가 있다)
 	 -->
-	 <insert id="insert" parameterType="Board">
-	 	insert into board(title, writer, content) values(#{title}, #{writer}, #{content})
-	 </insert>
-	 
-	 <select id="selectAll" resultType="com.academy.web0829.board.domain.Board">
-	 	select board_id, title, writer, regdate, hit from board order by board_id desc
-	 </select>
+	  <insert id="insert" parameterType="Board">
+   		insert into board(title, writer, content) values(#{title},#{writer},#{content})
+   </insert>
+   
+	<!-- 밑에서의 Board는 자료형을 물어보는것 이 BoardDTO에 멤버 변수가 저장되어있는데 이때 컬럼명과 멤버변수 명이 같아야 맵핑을 해준다.
+	SqlMapper : Mybatis => Sql문과 맵핑해준다 하고 해서 SqlMapper라고 한다.
+	ORMapping : hibernate -> 테이블과 객체를 맵핑 자동으로 쿼리문을 생성해줌 쿼리문을 작성해주지 않음  -->
+   <select id ="selectAll" resultType = "Board">
+   		select board_id, title, writer, content, regdate, hit from board order by board_id desc
+   </select>
+   
+   <!-- 한 데이터 가져오기 -->
+   <select id="select" resultType="Board" parameterType="int">
+   		select board_id, title, writer, content, regdate, hit from board where board_id = #{board_id}
+   </select>
+   <delete id="delete" parameterType="int">
+   		delete from board where board_id=#{board_id}
+   </delete>
+   
+   <update id="update"  parameterType="Board" >
+   		update board set title=#{title}, writer=#{writer}, content=#{content} where board_id=#{board_id}
+   </update>
 </mapper>

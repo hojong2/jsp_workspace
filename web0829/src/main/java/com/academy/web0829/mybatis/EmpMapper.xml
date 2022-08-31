@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Emp">
+
+	<!-- CRUD 쿼리 작성 -->
+	
+	<!-- 개발자가 주도하여 매핑을 하고싶을때 아래의 태그에 정의한다 -->
+	<resultMap type="Emp" id="empMap">
+		<id column="empno" property="empno"/>
+		<result column="ename" property="ename"/>
+		<result column="job" property="job"/>
+		<result column="mgr" property="mgr"/>
+		<result column="hiredate" property="hiredate"/>
+		<result column="sal" property="sal"/>
+		<result column="comm" property="comm"/>
+		<association column="deptno" property="dept" javaType="Dept" select="Dept.select"/>
+	</resultMap>
+	
+	<select id="selectAll" resultType="Emp" resultMap="empMap">
+		select empno, ename, job, mgr, hiredate, sal, comm, deptno 
+		from emp
+	</select>
+	
+	
+	
+	
+
+</mapper>
