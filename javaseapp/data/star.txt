@@ -1,0 +1,5 @@
+zerg=fast
+protoss=strong
+terran=weak
+/movie.do=com.academy.model2app.movie.controller.MovieController
+/blood.do=com.academy.model2app.blood.controller.BloodController

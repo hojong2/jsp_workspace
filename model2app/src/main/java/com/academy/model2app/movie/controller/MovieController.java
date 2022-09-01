@@ -24,7 +24,7 @@ public class MovieController implements Controller{
 	}
 	
 	//형님 컨트롤러가 어떤 뷰페이지를 보여줘야 할지를 여기서 결장해보자
-	public String getViewPage() {
-		return "/movie/advice.jsp";
+	public String getViewName() {
+		return "/movie/result";
 	}
 }
