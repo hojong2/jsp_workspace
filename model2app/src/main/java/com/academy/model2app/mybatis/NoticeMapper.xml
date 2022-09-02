@@ -24,7 +24,7 @@
 	</select>
 	
 	<!-- 뉴스 기사 한건 가져오기 -->
-	<select id="select" resultMap="noticeMap" parameterType="int">
+	<select id="selectOne" resultMap="noticeMap" parameterType="int">
 		<include refid="selectCommon"/>
 		where notice_id=#{notice_id}
 	</select>

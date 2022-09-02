@@ -17,10 +17,14 @@ public class NoticeDAO {
 		configManager.closeSqlSession(sqlSession);
 		return list;
 	}
-	/*
-	public Notice select() {
-
-	}*/
+	//레코드 하나 가져오기
+	public Notice select(int notice_id) {
+		Notice notice = null;
+		SqlSession sqlSession= configManager.getSqlSession();
+		notice=sqlSession.selectOne("Notice.selectOne", notice_id);
+		configManager.closeSqlSession(sqlSession);
+		return notice;
+	}
 	
 	//글 등록
 	public int insert(Notice notice) {
@@ -31,13 +35,23 @@ public class NoticeDAO {
 		configManager.closeSqlSession(sqlSession);
 		return result;
 	}
-	/*
-	public int update() {
-		
-	}*/
+	//한 건 수정
+	public int update(Notice notice) {
+		int result=0;
+		SqlSession sqlSession = configManager.getSqlSession();
+		result=sqlSession.update("Notice.update", notice);
+		sqlSession.commit();
+		configManager.closeSqlSession(sqlSession);
+		return result;
+	}
 	
-	/*
-	public int delete() {
-		
-	}*/
+	
+	public int delete(int notice_id) {
+		int result=0;
+		SqlSession sqlSession = configManager.getSqlSession();
+		result=sqlSession.delete("Notice.delete", notice_id);
+		sqlSession.commit();
+		configManager.closeSqlSession(sqlSession);
+		return result;
+	}
 }
