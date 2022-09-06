@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- 컨트롤러 매핑 (형님 DispatcherServlet은 직접 동생 컨트롤러를 검색하지 않기 때문에
+	이를 대행해줄 객체인 HandlerMapping객체중 개발자가 원하는 빈을 등록하면 된다)
+	참고로, 개발자가 아무것도 등록하지 않으면, DefaultAnnotationHandlerMapping이 적용된다(제일중요)-->
+	
+	<beans:bean id="HandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<beans:property name="mappings">
+			<beans:props>
+				<beans:prop key="/board/list">noticeListController</beans:prop>
+				<beans:prop key="/board/regist">noticeRegistController</beans:prop>
+				<beans:prop key="/board/content">noticeContentController</beans:prop>	
+				<beans:prop key="/board/edit">noticeEditController</beans:prop>	
+				<beans:prop key="/board/delete">noticeDeleteController</beans:prop>	
+			</beans:props>
+		</beans:property>
+		
+	</beans:bean>
+	
+	<!-- DAO 등록 -->
+	<beans:bean id="noticeDAO" class="com.academy.springmvcbasic.model.repository.NoticeDAO"/>
+	
+	<!-- 동생 bean 추가. 여기에 bean으로 추가된 객체들은, Spring 컨테이너에 의해 인스턴스가 생성 및 관리된다. -->
+	<beans:bean id="noticeListController" class="com.academy.springmvcbasic.controller.NoticeListController">
+		<beans:property name="noticeDAO" ref="noticeDAO"></beans:property>
+	</beans:bean>
+	
+	 <beans:bean id="noticeRegistController" class="com.academy.springmvcbasic.controller.NoticeRegistController">
+	 	<beans:constructor-arg ref="noticeDAO"/>
+	 </beans:bean>
+	 
+	 <beans:bean id="noticeContentController" class="com.academy.springmvcbasic.controller.NoticeContentController">
+	 	<beans:property name="noticeDAO" ref="noticeDAO"></beans:property>
+	 </beans:bean>
+	 
+	 <beans:bean id="noticeEditController" class="com.academy.springmvcbasic.controller.NoticeEditController">
+	 	<beans:property name="noticeDAO" ref="noticeDAO"></beans:property>
+	 </beans:bean>
+	 
+	 <beans:bean id="noticeDeleteController" class="com.academy.springmvcbasic.controller.NoticeDeleteController">
+	 	<beans:property name="noticeDAO" ref="noticeDAO"></beans:property>
+	 </beans:bean>
+
+	
+	<!-- 하위 컨트롤러들이 반환하는 뷰의 이름을 가지고, 실제 jsp를 조합하여, DispatcherServlet에게 반환해주는
+	객체를 가리켜 ViewResolver라 하고, 개발자는 이 ViewResolver중에 하나를 선택하여 빈으로 등록해야 한다. -->
+	<beans:bean id="ViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/"/>
+		<beans:property name="suffix" value=".jsp"/>
+	</beans:bean>
+		
+</beans:beans>
+

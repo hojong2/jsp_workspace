@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- 어플리케이션에서 사용될 객체들은 여기에 명시한다 -->
+	
+	<bean id="electPan" class="com.academy.springbasicapp.cook.ElectPan"/>
+	<bean id="friPan" class="com.academy.springbasicapp.cook.FriPan"/>
+	<bean id="cheif" class="com.academy.springbasicapp.cook.Cheif">
+		<!-- 특정 bean을 다른 bean에 주입시키는 것을 xml로 표현할때 weaving(엮음)한다라고 표현한다. -->
+		<property name="pan" ref="friPan"/>
+	</bean>
+	
+	<bean id="JTextArea" class="javax.swing.JTextArea">
+		<constructor-arg index="0" value="20"/>
+		<constructor-arg index="1" value="15"/>
+	</bean>
+	<bean id="JTextField" class="javax.swing.JTextField">
+		<constructor-arg type="int" value="20"/>
+	</bean>
+	
+	<bean id="JButton" class="javax.swing.JButton">
+		<constructor-arg type="String" value="버튼"/>
+	</bean>
+	
+	<!-- MyWin과 그 재료들을 weaving 한다 -->
+	<bean id="myWin" class="com.academy.springbasicapp.gui.MyWin">
+		<property name="area" ref="JTextArea"></property>
+		<property name="t_input" ref="JTextField"></property>
+		<property name="bt" ref="JButton"></property>
+	</bean>
+	
+	
+	<!-- aop -->
+	<bean id="student" class="com.academy.springbasicapp.school.Student"/>
+	<bean id="schoolBell" class="com.academy.springbasicapp.school.SchoolBell"/>
+
+	<!-- SchoolBell 등록 -->
+	<aop:config>
+		<aop:aspect ref="schoolBell">
+			<!-- 어느 지점에 공통로직을 적용할지 서술 -->
+			<aop:pointcut expression="execution(public * com.academy.springbasicapp.school.*.*(..))" id="bellPointcut"/>
+			<!-- 어느 시점에 공통로직을 적용할지 서술 -->
+			<aop:before method="ring" pointcut-ref="bellPointcut"/>
+		</aop:aspect>
+	</aop:config>
+	
+</beans>
