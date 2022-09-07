@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Emp">
+	<!-- 수동매핑을 위한 resultMap 태그 -->
+	<resultMap type="Emp" id="empMap">
+		<id column="empno" property="empno"/>
+		<result column="ename" property="ename"/>
+		<result column="sal" property="sal"/>
+		<result column="hiredate" property="hiredate"/>
+		<association column="deptno" property="dept" javaType="Dept" select="Dept.select"></association>
+	</resultMap>
+	
+	<!-- 사원 등록 -->
+	<insert id="insert" parameterType="Emp">
+		insert into emp(empno, ename, sal, deptno)
+		values(seq_emp.nextval, #{ename}, #{sal}, #{dept.deptno})
+	</insert>
+	
+	<!-- 사원목록 가져오기 (부서테이블과 조인)
+		deptno 컬럼은 Emp가 보유한 Dept 객체에 자동으로 매핑이 되지 않기 때문에
+		개발자가 직접 수동으로 매핑을 처리해야 한다.
+	 -->
+	<select id="selectAll" resultMap="empMap">
+		select empno, ename, sal, hiredate, deptno from emp
+	</select>
+	
+	<select id="select" resultMap="empMap" parameterType="int">
+		select empno, ename, sal, hiredate, deptno from emp where empno=#{empno}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from emp where empno=#{empno}
+	</delete>
+</mapper>

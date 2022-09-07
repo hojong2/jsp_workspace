@@ -21,8 +21,20 @@
                     DAO : @Respository 컴포넌트
                     서비스 : @Service 컴포넌트 
                     -->
+   
+   <!-- 우리가 정의한 객체중 싱글턴으로 정의한 객체를 빈으로 등록해보자 -->
+   <beans:bean id="mybatisConfigManager" class="com.academy.springmvcsimple.mybatis.MybatisConfigManager" factory-method="getInstance"/>
+   
    <context:component-scan base-package="com.academy.springmvcsimple"/>
-		
+	<!-- 
+	현재 우리가 사용중인 프레임웍은 MVC패턴이 적용되었기 때문에, 웹 어플리케이션내의 모든 요청은
+	하나의 진입점인 DispatcherServlet을 거쳐서 처이된다. 이때 DispatcherServlet이 정적자원인
+	이미지, css, js 등을 별도로 요청처리하지 않으면, 클라이언트는 적절한 결과를 볼 수 없다.
+	해결책) 정적자원까지, 개발자가 요청을 별도로 처리하지말고, 시스템이 알아서 처리하도록하자
+	 -->	
+	 <annotation-driven/>
+	 <resources location="/resources/" mapping="/resources/**"></resources>
+	 
 	<!-- 뷰 매핑을 담당해주는 뷰리절버 등록하자, 이때 우리가 선택한 뷰리절버는 InternalResourceViewResolver(접두어, 접미어 조합을 이용하여 최종적으로 jsp경로를 반환해준다.) -->	
 	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/" p:suffix=".jsp"/>
 </beans:beans>

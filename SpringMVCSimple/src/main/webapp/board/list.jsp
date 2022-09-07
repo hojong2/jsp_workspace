@@ -1,7 +1,7 @@
 <%@page import="com.academy.springmvcsimple.domain.Notice"%>
 <%@page import="java.util.List"%>
 <%@page import="com.academy.springmvcsimple.util.Pager"%>
-<%@page import="com.academy.springmvcsimple.model.repository.NoticeDAO"%>
+<%@page import="com.academy.springmvcsimple.model.notice.NoticeDAO"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%! 
 	Pager pager = new Pager();

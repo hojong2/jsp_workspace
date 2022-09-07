@@ -5,6 +5,8 @@
 <configuration>
 <typeAliases>
 	<typeAlias type="com.academy.springmvcsimple.domain.Notice" alias="Notice"/>
+	<typeAlias type="com.academy.springmvcsimple.domain.Emp" alias="Emp"/>
+	<typeAlias type="com.academy.springmvcsimple.domain.Dept" alias="Dept"/>
 </typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -16,5 +18,7 @@
 	</environments>
 	<mappers>
 		<mapper resource="com/academy/springmvcsimple/mybatis/NoticeMapper.xml"/>
+		<mapper resource="com/academy/springmvcsimple/mybatis/EmpMapper.xml"/>
+		<mapper resource="com/academy/springmvcsimple/mybatis/DeptMapper.xml"/>
 	</mappers>
 </configuration>
