@@ -13,6 +13,8 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd">
 
+	<resources location="/resource/" mapping="/resource/**"></resources>
+
 	<!-- 뷰리절버 등록(접두어와 접미어로 해석) -->
 	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/"/>
