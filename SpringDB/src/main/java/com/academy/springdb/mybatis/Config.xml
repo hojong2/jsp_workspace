@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <typeAliases>
+  	<typeAlias type="com.academy.springdb.model.domain.News" alias="News"/>
+  	<typeAlias type="com.academy.springdb.model.domain.Comments" alias="Comments"/>
+  </typeAliases>
+  <mappers>
+    <mapper resource="com/academy/springdb/mybatis/NewsMapper.xml"/>
+    <mapper resource="com/academy/springdb/mybatis/CommentsMapper.xml"/>
+  </mappers>
+</configuration>

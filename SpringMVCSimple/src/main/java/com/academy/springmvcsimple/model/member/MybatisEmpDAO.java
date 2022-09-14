@@ -51,7 +51,7 @@ public class MybatisEmpDAO implements EmpDAO{
 
 	@Override
 	public int delete(int empno) {
-		int reulst=0;
+		int result=0;
 		SqlSession sqlSession = manager.getSqlSession();
 		result=sqlSession.delete("Emp.delete", empno);
 		manager.closeSqlSession(sqlSession);

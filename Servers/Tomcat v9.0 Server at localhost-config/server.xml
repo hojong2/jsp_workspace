@@ -155,7 +155,7 @@
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
       
-      <Context docBase="SpringMVCSimple" path="/" reloadable="true" source="org.eclipse.jst.jee.server:SpringMVCSimple"/></Host>
+      <Context docBase="SpringDB" path="/" reloadable="true" source="org.eclipse.jst.jee.server:SpringDB"/></Host>
     </Engine>
   </Service>
 </Server>

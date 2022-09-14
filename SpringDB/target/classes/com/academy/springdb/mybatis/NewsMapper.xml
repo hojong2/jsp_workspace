@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="News">
+	
+	<resultMap type="News" id="newsMap">
+		<id column="news_id" property="news_id"/>
+		<result column="title" property="title"/>
+		<result column="writer" property="writer"/>
+		<result column="content" property="content"/>
+		<result column="regdate" property="regdate"/>
+		<result column="hit" property="hit"/>
+		<collection column="news_id" property="commentsList" javaType="java.util.List" ofType="Comments" select="Comments.selectAllByNewsId"/>
+		
+	</resultMap>
+	
+	<!-- association을 이용하는 것이 아니라, 하나의 뉴스기사에 딸려있는 모든 자식을 가져와보자 (1:多 관계) 
+		collection을 이용해본다
+	-->
+	<select id="selectAll" resultMap="newsMap">
+		select * from news order by news_id desc
+	</select>
+	
+	<insert id="insert" parameterType="News">
+		insert into news(news_id, title, writer, content) values(seq_news.nextval, #{title}, #{writer}, #{content})
+	</insert>
+	
+	<select id="select" resultType="News" parameterType="int">
+		select * from news where news_id=#{news_id}
+	</select>
+</mapper>
