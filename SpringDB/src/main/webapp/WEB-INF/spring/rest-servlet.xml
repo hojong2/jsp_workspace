@@ -13,14 +13,23 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd">
 		
+	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/"/>
+		<beans:property name="suffix" value=".jsp"/>
+	</beans:bean>
 	<!-- 컨트롤러를 어노테이션으로 생성 및 관리하고자 할때 이 태그를 등록해야 함 -->
 	<annotation-driven />
 	<!--
 	 base-package에 소속된 모든 클래스는 인스턴스의 scan 대상이 됨
 	 -->
 	<context:component-scan
-		base-package="com.academy.springdb.controller" >
-		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>	
+		base-package="com.academy.springdb.restcontroller" >
 	</context:component-scan>
 	
+	<!-- 비동기 요청에 대해, json 데이터를 보내고자 할때 java객체를 자동으로 json 객체로 변환해주는 빈을 등록해본다 -->
+	<beans:bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<beans:property name="supportedMediaTypes">
+			<beans:value>application/json;charset=utf-8</beans:value>
+		</beans:property>
+	</beans:bean>
 </beans:beans>

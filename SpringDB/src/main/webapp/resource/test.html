@@ -9,16 +9,47 @@
 <script type="text/babel">
 //게시판 스킨을 정의한다
 //쌍따옴표 안에 복잡한 HTML을 퍼블리싱한다는 것은 유지보수성이 너무 떨어짐
-function Board(){
-	return (<table>
-			</table>);
+
+//재사용 가능성이 높은 디자인에 대해 컴포넌트로 정의하자
+function Comments(props){
+	return(
+		<tr>
+			<td>{props.msg}</td>
+			<td>{props.haha}</td>
+			<td>{props.qwer}</td>
+		</tr>
+	)
 }
+
+function printList(){
+	var tag=[];
+	for(var i=0; i<10; i++){
+		tag.push(<Comments msg={"ㅇㅇㅇ"} haha={"hoho"} qwer={"asdf"}/>);
+	}
+	
+	//재활용성이 없는 나머지 테이블에 대해서는 직접 작성
+	var table=(
+		<table width="100%" border="1px">
+			<tr>
+				<th>댓글내용</th>
+				<th>작성자</th>
+				<th>작성일</th>
+			</tr>
+			{tag}
+		</table>
+	)
+	var root=ReactDOM.createRoot(document.getElementById("listArea"));
+	root.render(table);
+}
+
+printList();
+
 </script>
 </head>
 <body>
 	<button onClick="printTable()">동적출력</button>
-	<div>
-	
+	<div id="listArea">
+
 	</div>
 </body>
 </html>

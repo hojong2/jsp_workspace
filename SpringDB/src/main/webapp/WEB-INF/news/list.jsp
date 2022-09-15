@@ -53,7 +53,7 @@ tr:nth-child(even) {
 		</tr>
 		<%} %>
 		<tr>
-			<td colspan="5"><button onClick="location.href='/board/regist.jsp';">글작성</button></td>
+			<td colspan="5"><button onClick="location.href='/news/registform'">글작성</button></td>
 		</tr>
 	</table>
 

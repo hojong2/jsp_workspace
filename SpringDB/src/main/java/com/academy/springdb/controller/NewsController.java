@@ -22,6 +22,10 @@ public class NewsController {
 	@Autowired
 	private NewsService newsService;
 	
+	public NewsController() {
+		// TODO Auto-generated constructor stub
+		System.out.println("응애 나 그냥 컨트롤러");
+	}
 	/*
 	@GetMapping("/rest")
 	@ResponseBody
@@ -45,9 +49,9 @@ public class NewsController {
 	
 	//글쓰기 요청처리
 	@PostMapping("/news/regist")
-	public ModelAndView regist(News news) {
+	public String regist(News news) {
 		newsService.regist(news);
-		return null;
+		return "redirect:/news/list";
 	}
 	
 	@GetMapping("/news/content")
@@ -57,6 +61,21 @@ public class NewsController {
 		mav.addObject("news", news);
 		return mav;
 	}
+	
+	@PostMapping("/news/update")
+	public ModelAndView update(News news) {
+		newsService.update(news);
+		ModelAndView mav = new ModelAndView("redirect:/news/content?news_id="+news.getNews_id());
+		return mav;
+	}
+	
+	@GetMapping("/news/delete")
+	public String delete(int news_id) {
+		newsService.delete(news_id);
+		
+		return "redirect:/news/list";
+	}
+	
 	//스프링 MVC의 컨트롤러의 메서드들 중에서 예외가 발생할때, 이 예외를 처리할 메서드를 지원해준다.
 	@ExceptionHandler(NewsException.class)
 	public ModelAndView handleException(NewsException e) {

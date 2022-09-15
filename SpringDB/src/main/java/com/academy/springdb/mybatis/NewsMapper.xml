@@ -27,4 +27,12 @@
 	<select id="select" resultType="News" parameterType="int">
 		select * from news where news_id=#{news_id}
 	</select>
+	
+	<update id="update" parameterType="News">
+		update news set title=#{title}, writer=#{writer}, content=#{content} where news_id=#{news_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from news where news_id=#{news_id}
+	</delete>
 </mapper>

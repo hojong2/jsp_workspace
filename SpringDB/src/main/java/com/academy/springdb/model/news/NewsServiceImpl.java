@@ -33,11 +33,13 @@ public class NewsServiceImpl implements NewsService{
 	}
 
 	@Override
-	public void update(News news) {
+	public void update(News news) throws NewsException{
+		newsDAO.update(news);
 	}
 
 	@Override
-	public void delete(int news_id) {
+	public void delete(int news_id) throws NewsException{
+		newsDAO.delete(news_id);
 	}
 	
 }

@@ -36,11 +36,19 @@ public class MybatisNewsDAO implements NewsDAO{
 	}
 
 	@Override
-	public void update(News news) {
+	public void update(News news) throws NewsException{
+		int result=sqlSessionTemplate.update("News.update", news);
+		if(result==0) {
+			throw new NewsException("mybatis를 이용한 수정 실패");
+		}
 	}
 
 	@Override
-	public void delete(int news_id) {
+	public void delete(int news_id) throws NewsException{
+		int result=sqlSessionTemplate.delete("News.delete", news_id);
+		if(result==0) {
+			throw new NewsException("mybatis를 이용한 삭제 실패");
+		}
 	}
 	
 }
