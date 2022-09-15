@@ -21,7 +21,7 @@ public class UploadController {
 		System.out.println("작성자: "+gallery.getWriter());
 		System.out.println("파일: "+gallery.getPhoto());
 		
-		//업로드된 파일에 대한 분석
+		//업로드된 파일에 대한 분석s
 		MultipartFile multi=gallery.getPhoto();
 		System.out.println(multi.getContentType());
 		System.out.println(multi.getOriginalFilename());
