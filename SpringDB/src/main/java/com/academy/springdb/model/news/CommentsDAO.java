@@ -12,4 +12,5 @@ public interface CommentsDAO {
 	public void insert(Comments comments);
 	public void update(Comments comments);
 	public void delete(int comments_id);
+	public void deleteByNewsId(int news_id);
 }

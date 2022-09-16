@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Admin">
+	<!-- 관리자 등록 -->
+	<insert id="insert" parameterType="Admin">
+		insert into admin(admin_id, user_id, pass, name) values(seq_admin.nextval, #{user_id}, #{pass}, #{name})
+	</insert>
+	<!-- 관리자 로그인 체크(아이디/패스워드로 가져오기) -->
+	<select id="selectByIdAndPass" parameterType="Admin" resultType="Admin">
+		select * from admin where user_id=#{user_id} and pass=#{pass}
+	</select>
+</mapper>

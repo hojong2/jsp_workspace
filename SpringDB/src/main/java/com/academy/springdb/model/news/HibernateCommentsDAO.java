@@ -36,4 +36,8 @@ public class HibernateCommentsDAO implements CommentsDAO{
 	public void delete(int comments_id) {
 	}
 
+	@Override
+	public void deleteByNewsId(int news_id) {
+	}
+
 }

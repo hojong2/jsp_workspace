@@ -71,6 +71,7 @@ public class NewsController {
 	
 	@GetMapping("/news/delete")
 	public String delete(int news_id) {
+
 		newsService.delete(news_id);
 		
 		return "redirect:/news/list";

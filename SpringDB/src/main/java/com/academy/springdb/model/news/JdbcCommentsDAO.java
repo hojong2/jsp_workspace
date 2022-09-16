@@ -67,4 +67,8 @@ public class JdbcCommentsDAO implements CommentsDAO{
 	public void delete(int comments_id) {
 	}
 
+	@Override
+	public void deleteByNewsId(int news_id) {
+	}
+
 }
