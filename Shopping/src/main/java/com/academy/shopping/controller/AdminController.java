@@ -19,4 +19,11 @@ public class AdminController {
 		//WEB-INF/views/ .jsp
 		return new ModelAndView("admin/regist");
 	}
+	
+	//관리자 메인 페이지 요청 처리
+	@GetMapping("/admin/main")
+	public ModelAndView getMain() {
+		ModelAndView mav = new ModelAndView("admin/index");
+		return mav;
+	}
 }

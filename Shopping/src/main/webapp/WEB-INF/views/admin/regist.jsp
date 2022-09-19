@@ -60,6 +60,10 @@ $(function(){
 		//비동기로 가입을 처리할 예정
 		registAsync();
 	})
+	$($("input[type='button']")[0]).click(function(){
+		//비동기로 가입을 처리할 예정
+		$(location).attr("href", "/admin/loginform");
+	})
 })
 </script>
 </head>

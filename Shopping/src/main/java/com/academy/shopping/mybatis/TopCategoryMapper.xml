@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TopCategory">
+	<!-- 카테고리 등록 -->
+	<insert id="insert" parameterType="TopCategory">
+		insert into topcategory(topcategory_id, category_name)
+		values(seq_topcategory.nextval, #{category_name})
+	</insert>
+	
+	<!-- 카테고리 목록 -->
+	<select id="selectAll" resultType="TopCategory">
+		select * from topcategory
+	</select> 
+	
+	<select id="select" parameterType="int" resultType="TopCategory">
+		select * from topcategory where topcategory_id=#{topcategory_id}
+	</select>
+</mapper>
