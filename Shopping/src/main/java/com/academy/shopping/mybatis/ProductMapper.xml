@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ProductMapper"></mapper>
+<mapper namespace="Product">
+	<resultMap type="Product" id="productMap">
+		<id column="product_id" property="product_id"/>
+		<result column="product_name" property="product_name"/>
+		<result column="brand" property="brand"/>
+		<result column="price" property="price"/>
+		<result column="discount" property="discount"/>
+		<result column="memo" property="memo"/>
+		<result column="detail" property="detail"/>
+		<result column="product_img" property="product_img"/>
+		<collection column="subcategory_id" property="subcategory" javaType="SubCategory" select="SubCategory.select"/>
+	</resultMap>
+	<select id="selectAll" resultMap="productMap">
+		select * from product
+	</select>
+	<insert id="insert" parameterType="Product">
+		insert into product(product_id, product_name, brand, price, discount, detail, product_img, memo, subcategory_id)
+		values(seq_product.nextval, #{product_name}, #{brand}, #{price}, #{discount}, #{detail}, #{product_img}, #{memo}, #{subcategory.subcategory_id})
+	</insert>
+	
+	<select id="select" resultMap="productMap" parameterType="Product">
+		select * from product where product_id=#{product_id}
+	</select>
+	
+</mapper>

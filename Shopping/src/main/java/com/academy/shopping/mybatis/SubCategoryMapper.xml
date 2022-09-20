@@ -21,4 +21,7 @@
 		select subcategory_id, category_name, topcategory_id
 		from subcategory where topcategory_id=#{topcategory_id}
 	</select>
+	<select id="select" resultMap="subcategoryMap">
+		select * from subcategory where subcategory_id=#{subcategory_id}
+	</select>
 </mapper>

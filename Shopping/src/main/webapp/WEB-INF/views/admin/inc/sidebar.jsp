@@ -51,9 +51,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
+                <a href="/admin/product/list" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>상품등록</p>
+                  <p>상품목록</p>
                 </a>
               </li>
             </ul>

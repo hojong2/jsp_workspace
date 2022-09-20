@@ -1,5 +1,7 @@
 package com.academy.shopping.model.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -11,6 +13,7 @@ public class Product {
 	private int discount;
 	private String memo;
 	private String detail;
-	private String product_img;
-	private SubCategory subCategory;
+	private String Product_img;
+	private MultipartFile photo;  //파일 내부 자동 처리 객체
+	private SubCategory subcategory;
 }

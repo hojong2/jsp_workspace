@@ -8,12 +8,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Advanced form elements</title>
 	<%@ include file="../inc/header_link.jsp" %>
+<style>
+.col-md-9 *{
+margin:5px;
+}
+</style>
+
 </head>
+
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-
-	<%@ include file="../inc/topbar.jsp" %>
+  <%@ include file="../inc/topbar.jsp" %>
   <%@ include file="../inc/sidebar.jsp" %>
 
   <!-- Content Wrapper. Contains page content -->
@@ -23,7 +29,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Advanced Form</h1>
+            <h1>상품등록</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -41,7 +47,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">카테고리 관리</h3>
+            <h3 class="card-title">상품 등록</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -53,41 +59,50 @@
             </div>
           </div>
           <!-- /.card-header -->
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>상위 카테고리</label>
-                  <div class="row">
-                  <input type="text" class="form-control col-md-11" name="category_name">
-                  <button class="btn btn-primary col-md-1" onClick="registTop()">등록</button>
-                  </div>
-                  <select class="form-control select" style="width: 100%;" size="20" name="top">
-                  </select>
-                </div>
-                <button class="btn btn-primary">등록</button>               
-                <button class="btn btn-primary">삭제</button>
-                              
-                </div>
-                <!-- /.form-group -->
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>하위 카테고리</label>
-                  <div class="row">
-                  <input type="text" class="form-control col-md-11" name="category_name">
-                  <button class="btn btn-primary col-md-1" onClick="registSub()">등록</button>
-                  </div>
-                  <select class="form-control select" style="width: 100%;" size="20" name="sub">
-                  </select>
-                </div>
-                <button class="btn btn-info">등록</button>               
-                <button class="btn btn-info">삭제</button>
-                              
-                </div>
-                <!-- /.form-group -->
-              </div>
-              <!-- /.col -->
-            </div>
+          <form>
+	          <div class="card-body">
+	            <div class="row">
+	            	<div class="col-md-3">
+		            	<div class="col-md-12">
+		                <div class="form-group">
+		                  <label>상위 카테고리</label>
+	
+		                  <select class="form-control select" style="width: 100%;" size="7" name="top">
+		                  </select>
+		                </div>
+		                              
+		                </div>
+		                <!-- /.form-group -->
+		              <div class="col-md-12">
+		                <div class="form-group">
+		                  <label>하위 카테고리</label>
+	
+		                  <select class="form-control select" style="width: 100%;" size="7" name="subcategory.subcategory_id">
+		                  </select>
+		                </div>
+		                              
+		                </div>
+	                </div>
+	                
+		            	<div class="col-md-9">
+		            		<input type="text" name="product_name" class="form-control" placeholder="상품명">
+		            		<input type="text" name="brand" class="form-control" placeholder="브랜드">
+		            		<input type="number" name="price" class="form-control" placeholder="원가격">
+		            		<input type="number" name="discount" class="form-control" placeholder="할인가격">
+		            		<textarea class="form-control" placeholder="간략 설명" name="memo"></textarea>
+		            		<textarea class="form-control" placeholder="상품 상세 설명" id="summernote" style="height:200px" name="detail"></textarea>
+		            		<input type="file" class="form-control" name="photo">
+		            		
+		            		<button type="button" class="btn btn-warning" onClick="registProduct()">상품 등록</button>
+		            		<button type="button" class="btn btn-primary" onClick="location.href='/admin/product/list';">목록 보기</button>
+		            	</div>
+	
+	              
+	                <!-- /.form-group -->
+	              </div>
+	              <!-- /.col -->
+	            </div>
+            </form>
             <!-- /.row -->     
           <!-- /.card-body -->
           <div class="card-footer">
@@ -144,6 +159,7 @@
 <script src="/static/admin/plugins/dropzone/min/dropzone.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/static/admin/dist/js/adminlte.min.js"></script>
+<script src="/static/admin/plugins/summernote/summernote-bs4.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <!-- Page specific script -->
 <script>
@@ -166,44 +182,7 @@ function printTopList(jsonList){
 	}
 	$(sel).append(tag);
 }
-function registTop(){
-	$.ajax({
-		url:"/rest/admin/topcategory",
-		type:"post",
-		data:{
-			category_name:$($("input[name='category_name'][0]")).val()
-		},
-		success:function(result, status, xhr){
-			alert(status);
-		},
-		error:function(xhr, status, error){
-			alert(status+", "+error);
-		}
-	})
-}
 
-//하위 카테고리에 대한 비동기 등록요청
-//주의) 반드시 상위 카테고리가 하나라도 선택되어있어야 한다(유효성 체크)
-function registSub(){
-	if($($("select")[0]).prop('selectedIndex')==-1){
-		alert("좌측 영역에서 상위카테고리를 선택하세요");
-		return;
-	}
-	$.ajax({
-		url:"/rest/admin/subcategory",
-		type:"post",
-		data:{
-			"category_name":$($("input[name='category_name']")[1]).val(),
-			"topcategory.topcategory_id":$($("select")[0]).val()
-		},
-		success:function(result, status, xhr){
-			alert(result);
-			getSubList($($("select")[0]).val())
-		},
-		error:function(xhr, status, error){
-		}
-	})		
-}
 
 //선택한 상위 카테고리에 소속된 하위 목록 가져오기
 function getSubList(topcategory_id){
@@ -220,7 +199,7 @@ function getSubList(topcategory_id){
 }
 
 function printSubList(jsonList){
-	var sel=$("select[name='sub']");
+	var sel=$("select[name='subcategory.subcategory_id']");
 	$(sel).empty();  //기존 카테고리 초기화
 	var tag="";
 	for(var i=0; i<jsonList.length; i++){
@@ -229,7 +208,24 @@ function printSubList(jsonList){
 	}
 	$(sel).append(tag);
 }
+
+//상품 등록 요청
+function registProduct(){
+	if(confirm("상품을 등록하시겠어요?")){
+		$("form").attr({
+			"action":"/admin/product/regist",
+			"method":"post",
+			"enctype":"multipart/form-data"
+		});
+		$("form").submit();
+	}
+	
+}
+
 $(function(){
+	 $('#summernote').summernote({
+		 height:200
+	 });
 	getTopList();
 	
 	$($("select")[0]).change(function(){

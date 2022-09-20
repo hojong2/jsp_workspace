@@ -1,6 +1,10 @@
+<%@page import="com.academy.shopping.model.domain.Product"%>
 <%@page import="java.util.List"%>
 <%@page import="com.academy.shopping.model.domain.TopCategory"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%
+	List<Product> productList= (List)request.getAttribute("productList");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,8 +16,7 @@
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-
-	<%@ include file="../inc/topbar.jsp" %>
+  <%@ include file="../inc/topbar.jsp" %>
   <%@ include file="../inc/sidebar.jsp" %>
 
   <!-- Content Wrapper. Contains page content -->
@@ -21,86 +24,68 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Advanced Form</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Advanced Form</li>
-            </ol>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Responsive Hover Table</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Brand</th>
+                      <th>Price</th>
+                      <th>Discount</th>
+                      <th>Memo</th>
+                      <th>Detail</th>
+                      <th>Img</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   <%for(int i=0; i<productList.size(); i++){ %>
+                    <%Product product = productList.get(i); %>
+                    <tr>
+                      <td><a href="/admin/product/detail?product_id=<%=product.getProduct_id()%>"><%=product.getProduct_id() %></a></td>
+                      <td><%=product.getSubcategory().getCategory_name()%></td>
+                      <td><%=product.getProduct_name() %></td>
+                      <td><%=product.getBrand() %></td>
+                      <td><%=product.getPrice() %></td>
+                      <td><%=product.getDiscount() %></td>
+                      <td><%=product.getMemo() %></td>
+                      <td><%=product.getDetail() %></td>
+                      <td><img src="/static/data/<%=product.getProduct_img()%>" width="45px"></td>
+                    </tr>
+                    <%} %>
+                  </tbody>
+                </table>
+                <button class="btn btn-primary" onClick="location.href='/admin/product/registform';">상품등록</button>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <!-- SELECT2 EXAMPLE -->
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">카테고리 관리</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>상위 카테고리</label>
-                  <div class="row">
-                  <input type="text" class="form-control col-md-11" name="category_name">
-                  <button class="btn btn-primary col-md-1" onClick="registTop()">등록</button>
-                  </div>
-                  <select class="form-control select" style="width: 100%;" size="20" name="top">
-                  </select>
-                </div>
-                <button class="btn btn-primary">등록</button>               
-                <button class="btn btn-primary">삭제</button>
-                              
-                </div>
-                <!-- /.form-group -->
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>하위 카테고리</label>
-                  <div class="row">
-                  <input type="text" class="form-control col-md-11" name="category_name">
-                  <button class="btn btn-primary col-md-1" onClick="registSub()">등록</button>
-                  </div>
-                  <select class="form-control select" style="width: 100%;" size="20" name="sub">
-                  </select>
-                </div>
-                <button class="btn btn-info">등록</button>               
-                <button class="btn btn-info">삭제</button>
-                              
-                </div>
-                <!-- /.form-group -->
-              </div>
-              <!-- /.col -->
-            </div>
-            <!-- /.row -->     
-          <!-- /.card-body -->
-          <div class="card-footer">
-            Visit <a href="https://select2.github.io/">Select2 documentation</a> for more examples and information about
-            the plugin.
-          </div>
-        </div>
-        <!-- /.card -->
-
-        
-      </div>
-      <!-- /.container-fluid -->
-    </section>
+    
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

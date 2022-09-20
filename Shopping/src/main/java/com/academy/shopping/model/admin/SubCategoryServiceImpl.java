@@ -2,13 +2,18 @@ package com.academy.shopping.model.admin;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.academy.shopping.exception.SubCategoryException;
 import com.academy.shopping.model.domain.SubCategory;
 
 @Service
 public class SubCategoryServiceImpl implements SubCategoryService{
 
+	@Autowired
+	private SubCategoryDAO subCategoryDAO;
+	
 	@Override
 	public List selectAll() {
 		
@@ -18,7 +23,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
 	@Override
 	public List selectByTopCategoryId(int topcategory_id) {
 		
-		return null;
+		return subCategoryDAO.selectByTopCategoryId(topcategory_id);
 	}
 
 	@Override
@@ -28,7 +33,8 @@ public class SubCategoryServiceImpl implements SubCategoryService{
 	}
 
 	@Override
-	public void insert(SubCategory subCategory) {
+	public void insert(SubCategory subCategory) throws SubCategoryException{
+		subCategoryDAO.insert(subCategory);
 	}
 
 	@Override

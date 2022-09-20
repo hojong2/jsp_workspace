@@ -23,4 +23,9 @@
 	<context:component-scan base-package="com.academy.shopping.controller"></context:component-scan>
 	
 	<mvc:annotation-driven/>
+	
+	<!-- 파일 업로드 빈 등록 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1048576"/>
+	</bean>
 </beans>
