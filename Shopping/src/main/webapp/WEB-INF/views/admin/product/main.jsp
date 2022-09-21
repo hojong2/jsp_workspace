@@ -54,7 +54,6 @@
                       <th>Price</th>
                       <th>Discount</th>
                       <th>Memo</th>
-                      <th>Detail</th>
                       <th>Img</th>
                     </tr>
                   </thead>
@@ -69,13 +68,19 @@
                       <td><%=product.getPrice() %></td>
                       <td><%=product.getDiscount() %></td>
                       <td><%=product.getMemo() %></td>
-                      <td><%=product.getDetail() %></td>
                       <td><img src="/static/data/<%=product.getProduct_img()%>" width="45px"></td>
                     </tr>
                     <%} %>
                   </tbody>
                 </table>
                 <button class="btn btn-primary" onClick="location.href='/admin/product/registform';">상품등록</button>
+                <button class="btn btn-primary" onClick="showExcel()">엑셀등록</button>
+                <div style="display: none" id="excel-area">
+                	<form id="excel-form">
+                		<input type="file" name="excel">
+                		<button type="button" class="btn btn-primary" onClick="registExcel()">등록</button>
+                	</form>
+                </div>
               </div>
               <!-- /.card-body -->
             </div>
@@ -131,6 +136,7 @@
 <script src="/static/admin/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <!-- Page specific script -->
+<script type="text/javascript" src="/static/common/js/lib.js"></script>
 <script>
 function getTopList(){
 	$.ajax({
@@ -214,6 +220,27 @@ function printSubList(jsonList){
 	}
 	$(sel).append(tag);
 }
+//가려져 있던 엑셀 등록폼을 등장시키자
+function showExcel(){
+	$("#excel-area").css({display:"block"});
+}
+
+//엑셀파일을 이용한 상품일괄 등록
+function registExcel(){
+	if($("input[name='excel']").val()==""){
+		alert("선택한 파일이 없음")
+		return ;
+	}
+	if(confirm("엑셀로 등록할까요?")){
+	$("#excel-form").attr({
+		"action":"/admin/product/excel",
+		"method":"post",
+		"enctype":"multipart/form-data"
+	});
+	$("#excel-form").submit();
+	}
+}
+
 $(function(){
 	getTopList();
 	
@@ -221,6 +248,15 @@ $(function(){
 		//alert("당신이 선택한 아이템의 value값은 "+ $(this).val())
 		getSubList($(this).val());
 	});
+	
+	//파일선택 컴포넌트에 이벤트 연결
+	$("input[name='excel']").change(function(){
+		//선택한 파일구하기
+		var ext=getExt($(this).val());
+		if(ext!="xls" && ext!="xlsx"){
+			alert("엑셀 파일만 선택 가능합니다.");
+		}
+	})
 })
 
 </script>

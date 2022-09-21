@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="TopCategory">
+
+	<!-- 컬렉션을 위한 1:多 관계(부모한건이 딸려있는 자식들을 같이 가져옴) -->
+	<resultMap type="TopCategory" id="topCategoryMap">
+		<id column="topcategory_id" property="topcategory_id"/>
+		<result column="category_name" property="category_name"/>
+		<collection column="topcategory_id" property="subList" javaType="java.util.List" 
+		ofType="SubCategory" select="SubCategory.selectByTopCategoryId"/>
+	</resultMap>
 	<!-- 카테고리 등록 -->
 	<insert id="insert" parameterType="TopCategory">
 		insert into topcategory(topcategory_id, category_name)
@@ -8,7 +16,7 @@
 	</insert>
 	
 	<!-- 카테고리 목록 -->
-	<select id="selectAll" resultType="TopCategory">
+	<select id="selectAll" resultMap="topCategoryMap">
 		select * from topcategory
 	</select> 
 	

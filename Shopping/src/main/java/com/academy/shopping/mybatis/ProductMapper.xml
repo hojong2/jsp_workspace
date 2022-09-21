@@ -15,13 +15,22 @@
 	<select id="selectAll" resultMap="productMap">
 		select * from product
 	</select>
+	<!-- 선택된 하위 카테고리에 소속된 상품 가져오기 -->
+	<select id="selectBySubId" parameterType="int" resultMap="productMap">
+		select * from product where subcategory_id=#{subcategory_id}
+	</select>
 	<insert id="insert" parameterType="Product">
 		insert into product(product_id, product_name, brand, price, discount, detail, product_img, memo, subcategory_id)
 		values(seq_product.nextval, #{product_name}, #{brand}, #{price}, #{discount}, #{detail}, #{product_img}, #{memo}, #{subcategory.subcategory_id})
 	</insert>
 	
-	<select id="select" resultMap="productMap" parameterType="Product">
+	<select id="select" resultMap="productMap" parameterType="int">
 		select * from product where product_id=#{product_id}
 	</select>
 	
+	<!-- 
+	<select id="selectByTopId" parameterType="int" resultMap="productMap">
+		select * from product where subcategory_id in (select subcategory_id from topcategory where topcategory_id=#{topcategory_id})
+	</select>
+	 -->
 </mapper>

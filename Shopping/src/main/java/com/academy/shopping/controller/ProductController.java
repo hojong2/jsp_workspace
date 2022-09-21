@@ -27,6 +27,9 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+	@Autowired
+	private FileManager fileManager;
+	
 	@GetMapping("/admin/product/list")
 	public ModelAndView getList() {
 		List productList=productService.selectAll();
@@ -48,6 +51,15 @@ public class ProductController {
 		productService.regist(product, savePath);
 		ModelAndView mav = new ModelAndView("redirect:/admin/product/list");
 		return mav;
+	}
+	
+	@PostMapping("/admin/product/excel")
+	public ModelAndView registByExcel(HttpServletRequest request, MultipartFile excel) {
+		ServletContext servletContext = request.getServletContext();
+		String path=servletContext.getRealPath("/resources/excel");
+		File savedFile = fileManager.saveExcel(path, excel);
+		//업로드된 엑셀을 대상으로 해석
+		return null;
 	}
 	
 	@ExceptionHandler(UploadException.class)

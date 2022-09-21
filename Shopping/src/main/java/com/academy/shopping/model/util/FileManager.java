@@ -40,6 +40,24 @@ public class FileManager {
 		return time+"."+ext;
 	}
 	
+	//엑셀파일 업로드
+	public File saveExcel(String path ,MultipartFile excel) {
+		
+		//서버에 올라온 엑셀을 읽어보자(업로드 완료)
+		File file=null;
+		try {
+			excel.transferTo(file=new File(path+"/"+excel.getOriginalFilename()));
+			System.out.println(file.getAbsolutePath());  //파일의 절대경로
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return file;
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(getExt("d://sdad..sadasd..sada.jsp"));
 	}
