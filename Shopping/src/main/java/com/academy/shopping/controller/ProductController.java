@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,9 +32,17 @@ public class ProductController {
 	private FileManager fileManager;
 	
 	@GetMapping("/admin/product/list")
-	public ModelAndView getList() {
+	public ModelAndView getList(HttpServletRequest request) {
+		//로그인 인증을 거치지 않았다면, 거부한다
+		HttpSession session=request.getSession();
+		
+		ModelAndView mav;
+		if(session.getAttribute("admin")==null) {
+			mav = new ModelAndView("admin/error/auth");
+		} else {
+			mav = new ModelAndView("admin/product/main");
+		}
 		List productList=productService.selectAll();
-		ModelAndView mav = new ModelAndView("admin/product/main");
 		mav.addObject("productList", productList);
 		return mav;
 	}
@@ -59,7 +68,12 @@ public class ProductController {
 		String path=servletContext.getRealPath("/resources/excel");
 		File savedFile = fileManager.saveExcel(path, excel);
 		//업로드된 엑셀을 대상으로 해석
-		return null;
+		String read=servletContext.getRealPath("/resources/shop/img/product");
+		String des= servletContext.getRealPath("/resources/data");
+		productService.registByExcel(savedFile, read, des);
+		
+		ModelAndView mav = new ModelAndView("redirect:/admin/product/list");
+		return mav;
 	}
 	
 	@ExceptionHandler(UploadException.class)

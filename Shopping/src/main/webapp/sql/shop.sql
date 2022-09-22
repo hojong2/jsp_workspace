@@ -33,3 +33,15 @@ create table product(
 create sequence seq_topcategory increment by 1 start with 1;
 create sequence seq_subcategory increment by 1 start with 1;
 create sequence seq_product increment by 1 start with 1;
+
+--회원
+create table member(
+	member_id number primary key
+	, customer_id varchar(30)
+	, customer_name varchar(30)
+	, customer_pass varchar(30)
+	, customer_email varchar(50)
+);
+create sequence seq_member
+increment by 1
+start with 1;

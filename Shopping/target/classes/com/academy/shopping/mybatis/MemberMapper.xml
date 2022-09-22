@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Member">
+	<select id="selectAll" resultType="Member">
+		select * from Member;
+	</select>
+	<insert id="insert" parameterType="Member">
+		insert into member(member_id, customer_id, customer_name, customer_pass, customer_email) values(seq_member.nextval, #{customer_id}, #{customer_name}, #{customer_pass}, #{customer_email})
+	</insert>
+	<!-- 아이디 존재여부 확인 -->
+	<select id="selectCustomerId" parameterType="String" resultType="Member"> 
+		select * from member where customer_id=#{customer_id}
+	</select>
+</mapper>

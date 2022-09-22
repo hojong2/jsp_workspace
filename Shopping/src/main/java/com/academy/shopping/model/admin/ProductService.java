@@ -11,7 +11,7 @@ public interface ProductService {
 	public List selectByTopId(int topcategory_id);
 	public Product select(int product_id);
 	public void regist(Product product, String savePath);
-	public void registByExcel(File file);  //엑셀 파일을 매개변수로 넘김
+	public void registByExcel(File file, String read, String des);  //엑셀 파일을 매개변수로 넘김
 	public void update(Product product);
 	public void delete(Product product);
 	
