@@ -1,4 +1,7 @@
-package com.academy.shopping.restcontroller;
+package com.academy.shopping.restcontroller.shop;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,9 +44,21 @@ public class ShopMemberRestController {
 		return entity;
 	}
 	
+	//로그인 요청 처리
+	@PostMapping("/member/login")
+	public ResponseEntity<Message> login(HttpServletRequest request, Member member){
+		Member result=memberServiceImpl.selectByIdAndPass(member);
+		//로그인 성공시, 회원정보를 유지할 수 있도록 세션에 Member를 담는다
+		HttpSession session= request.getSession();
+		session.setAttribute("member", result);
+		Message message = new Message(1, "로그인 성공");
+		ResponseEntity<Message> entity = new ResponseEntity<Message>(message, HttpStatus.OK);
+		return entity;
+	}
+	
 	@ExceptionHandler(MemberException.class)
 	public ResponseEntity<Message> handleException(MemberException e){
-		
+		System.out.println(e.getMessage());
 		Message message = new Message(0, e.getMessage());
 		
 		ResponseEntity<Message> entity = new ResponseEntity<Message>(message, HttpStatus.OK);

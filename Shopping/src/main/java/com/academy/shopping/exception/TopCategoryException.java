@@ -3,14 +3,14 @@ package com.academy.shopping.exception;
 public class TopCategoryException extends RuntimeException{
 	
 	public TopCategoryException(String msg) {
-		// TODO Auto-generated constructor stub
+		super(msg);
 	}
 	
 	public TopCategoryException(String msg, Throwable e) {
-		// TODO Auto-generated constructor stub
+		super(msg,e);
 	}
 	
 	public TopCategoryException(Throwable e) {
-		// TODO Auto-generated constructor stub
+		super(e);
 	}
 }

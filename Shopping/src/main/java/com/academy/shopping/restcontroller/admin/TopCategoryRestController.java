@@ -1,4 +1,4 @@
-package com.academy.shopping.restcontroller;
+package com.academy.shopping.restcontroller.admin;
 
 import java.util.List;
 

@@ -3,14 +3,14 @@ package com.academy.shopping.exception;
 public class ProductException extends RuntimeException{
 	
 	public ProductException(String msg) {
-		// TODO Auto-generated constructor stub
+		super(msg);
 	}
 	
 	public ProductException(String msg, Throwable e) {
-		// TODO Auto-generated constructor stub
+		super(msg,e);
 	}
 	
 	public ProductException(Throwable e) {
-		// TODO Auto-generated constructor stub
+		super(e);
 	}
 }

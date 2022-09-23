@@ -93,7 +93,7 @@
 
    
 
-<%@ include file="../inc/instagram.jsp" %>
+<!-- <%@ include file="../inc/instagram.jsp" %>-->
 
 <%@ include file="../inc/footer.jsp" %>
 
@@ -101,6 +101,7 @@
 
 <%@ include file="../inc/plugin.jsp" %>
 <script>
+var validId=false;
 var isCheck=true;  //중복확인 수행 여부
 function checkId(){
 	if($("#customer_id").val()==""){
@@ -112,6 +113,7 @@ function checkId(){
 		type:"get",
 		success:function(result, status, xhr){
 			console.log(result);
+			(result.code==1)?validId=true:validId=false;
 			alert(result.msg);
 		}
 	})
@@ -119,6 +121,10 @@ function checkId(){
 function regist(){
 	if(!isCheck){
 		alert("아이디 중복체크 필요")
+		return;
+	}
+	if(!validId){
+		alert("유효하지 않은 아이디입니다.");
 		return;
 	}
 	//폼 전송
@@ -132,11 +138,7 @@ function regist(){
 			customer_email:$("#customer_email").val()
 		},
 		success:function(result, status, xhr){
-			if(result.code==1){
-				alert("성공~");
-			}else {
-				alert("다시 시도해주세요");
-			}
+			alert(result);
 		},
 		error:function(xhr, status, error){
 			alert(error);
@@ -152,7 +154,7 @@ $(function(){
 	})
 	//로그인
 	$($("form button")[1]).click(function(){
-		login();
+		location.href="/shop/member/loginform";
 	})
 	//등록
 	$($("form button")[2]).click(function(){

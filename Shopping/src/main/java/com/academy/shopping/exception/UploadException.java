@@ -3,14 +3,14 @@ package com.academy.shopping.exception;
 public class UploadException extends RuntimeException{
 	
 	public UploadException(String msg) {
-		// TODO Auto-generated constructor stub
+		super(msg);
 	}
 	
 	public UploadException(String msg, Throwable e) {
-		// TODO Auto-generated constructor stub
+		super(msg, e);
 	}
 	
 	public UploadException(Throwable e) {
-		// TODO Auto-generated constructor stub
+		super(e);
 	}
 }

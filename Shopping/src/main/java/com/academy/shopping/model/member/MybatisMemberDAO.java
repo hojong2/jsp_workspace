@@ -48,9 +48,19 @@ public class MybatisMemberDAO implements MemberDAO{
 	public Member selectCustomerId(String customer_id) throws MemberException{
 		Member member = sqlSessionTemplate.selectOne("Member.selectCustomerId", customer_id);
 		if(member!=null) {
+			System.out.println("잡음");
 			throw new MemberException("이미 존재하는 ID가 있습니다.");
 		}
 		return member;
+	}
+
+	@Override
+	public Member selectByIdAndPass(Member member) throws MemberException{
+		Member result=sqlSessionTemplate.selectOne("Member.selectByIdAndPass", member);
+		if(result==null) {
+			throw new MemberException("아이디 비밀번호를 다시 확인하세요");
+		}
+		return result;
 	}
 
 }
