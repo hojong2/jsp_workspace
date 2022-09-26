@@ -5,15 +5,19 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- 비동기 요청을 받는 모든 REST계열의 컨트롤러 생성 -->
 	<mvc:annotation-driven></mvc:annotation-driven>
 	<context:component-scan base-package="com.academy.shopping.restcontroller"/>
+	<bean id="restMemberLoginAspect" class="com.academy.shopping.aop.RestMemberLoginAspect"/>
+	<bean id="restGlobalExceptionAspect" class="com.academy.shopping.aop.RestGlobalExceptionAspect"/>
 	
 	<!-- jackson binder를 이용하여 자바객체를 json으로 변환시 언어 인코딩 -->
 	<bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -21,4 +25,11 @@
 			<value>application/json;charset=utf-8</value>
 		</property>
 	</bean>
+	
+	<aop:config>
+		<aop:aspect ref="restMemberLoginAspect">
+			<aop:pointcut expression="execution(public * com.academy.shopping.restcontroller.shop..*(..))" id="restMemberLoginPointcut"/>
+			<aop:around method="loginCheck" pointcut-ref="restMemberLoginPointcut"/>
+		</aop:aspect>
+	</aop:config>
 </beans>

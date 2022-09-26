@@ -319,8 +319,8 @@ function addCart(){
 		url:"/rest/cart",
 		type:"post",
 		data:{
-			porduct_id:<%=product.getProduct_id()%>,
-			porduct_name:"<%=product.getProduct_name()%>",
+			product_id:<%=product.getProduct_id()%>,
+			product_name:"<%=product.getProduct_name()%>",
 			brand:"<%=product.getBrand()%>",
 			price:<%=product.getPrice()%>,
 			discount:<%=product.getDiscount()%>,
@@ -328,6 +328,7 @@ function addCart(){
 			subcategory_id:<%=product.getSubcategory().getSubcategory_id()%>
 		},
 		success:function(result, status, xhr){
+			alert(result.msg);
 			
 		}
 	});
