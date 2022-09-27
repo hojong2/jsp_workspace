@@ -59,6 +59,8 @@
 			<aop:around method="loginCheck" pointcut-ref="memberLoginPointcut"/>
 		</aop:aspect>
 	</aop:config> 
+	
+	
 
 
 </beans>

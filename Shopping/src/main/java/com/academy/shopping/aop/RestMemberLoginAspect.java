@@ -26,7 +26,7 @@ public class RestMemberLoginAspect {
 		ResponseEntity entity=null;
 		//제외될 명단을 작성하기 위한 uri조사
 		String uri=request.getRequestURI();
-		if(uri.equals("/rest/member/login")) {
+		if(uri.equals("/rest/member/login") || uri.equals("/rest/member/check") || uri.equals("/rest/member")) {
 			returnObj=joinPoint.proceed();
 			if(returnObj instanceof ResponseEntity) {
 				entity=(ResponseEntity)returnObj;

@@ -40,4 +40,7 @@
 	</bean>
 	
 	<context:component-scan base-package="com.academy.shopping.model"/>
+	<!-- 메일 빈 -->
+	<bean id="mailSender" class="com.academy.shopping.model.util.MailSender"/>
+	<bean id="mailFormReader" class="com.academy.shopping.model.util.MailFormReader"/>
 </beans>

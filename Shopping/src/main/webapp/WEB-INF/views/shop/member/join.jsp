@@ -109,7 +109,7 @@ function checkId(){
 		return;
 	}
 	$.ajax({
-		url:"/rest/member/"+$("#customer_id").val(),
+		url:"/rest/member/check?customer_id="+$("#customer_id").val(),
 		type:"get",
 		success:function(result, status, xhr){
 			console.log(result);

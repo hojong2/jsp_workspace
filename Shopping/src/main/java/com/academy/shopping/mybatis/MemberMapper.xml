@@ -16,4 +16,8 @@
 	<select id="selectByIdAndPass" parameterType="Member" resultType="Member">
 		select * from member where customer_id=#{customer_id} and customer_pass=#{customer_pass}
 	</select>
+	
+	<select id="select" parameterType="int" resultType="Member">
+		select * from member where  member_id=#{member_id}
+	</select>
 </mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderDetail">
+	<resultMap type="OrderDetail" id="orderDetailMap">
+		<id column="orderdetail_id" property="orderdetail_id"/>
+		<result column="ea" property="ea"/>
+		<association column="product_id" property="product" javaType="Product" select="Product.select"/>
+	</resultMap>
+	
+	<select id="selectByOrderSummaryId" parameterType="int" resultType="OrderDetail">
+		select * from orderdetail where ordersummary_id=#{ordersummary_id}
+	</select>
+	
+	<insert id="insert" parameterType="OrderDetail">
+		insert into orderdetail(orderdetail_id, product_id, ea, ordersummary_id) values(seq_orderdetail.nextval, #{product.product_id}, #{ea}, #{ordersummary_id})
+	</insert>
+	
+	<update id="update" parameterType="OrderDetail">
+		update orderdetail set ea=#{ea} where orderdetail_id=#{orderdetail_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete orderdetail where orderdetail_id=#{orderdetail_id}
+	</delete>
+</mapper>

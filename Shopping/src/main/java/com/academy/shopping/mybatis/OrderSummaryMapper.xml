@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderSummary">
+
+	<resultMap type="OrderSummary" id="orderSummaryMap">
+		<id column="ordersummary_id" property="ordersummary_id"/>
+		<result column="totalbuy" property="totalbuy"/>
+		<result column="totalpay" property="totalpay"/>
+		<result column="buydate" property="buydate"/>
+		<association property="member" column="member_id" javaType="Member" select="Member.select"></association>
+		<association property="paymethod" column="paymethod_id" javaType="PayMethod" select="PayMethod.select"></association>
+		<collection property="orderDetailList" column="ordersummary_id" javaType="java.util.List" ofType="OrderDetail" select="OrderDetail.selectByOrderSummaryId"></collection>
+	</resultMap>
+
+	<insert id="insert" parameterType="OrderSummary">
+		insert into ordersummary(ordersummary_id, member_id, paymethod_id, totalbuy, totalpay)
+		values(seq_ordersummary.nextval, #{member.member_id}, #{paymethod.paymethod_id}, #{totalbuy}, #{totalpay})
+		<!-- insert와 동시에 pk 추출할 일이 있을때 -->
+		<selectKey order="AFTER" keyColumn="ordersummary_id" resultType="int" keyProperty="ordersummary_id">
+			<!-- mysql : select last_insert_id() -->
+			select seq_ordersummary.currval as ordersummary_id from dual
+		</selectKey>
+	</insert>
+	
+	<!-- 관리자를 위한 모든 주문 내역 -->
+	<select id="selectAll" resultMap="orderSummaryMap">
+		select * from ordersummary
+	</select>
+	
+	<!-- 고객을 위한 모든 주문 내역 -->
+	<select id="selectByCustomerId" parameterType="Member" resultMap="orderSummaryMap">
+		select * from ordersummary where customer_id=#{customer_id}
+	</select>
+	
+	<select id="select" parameterType="int" resultMap="orderSummaryMap">
+		select * from ordersummary where ordersummary_id=#{ordersummary_id}
+	</select>
+	
+	<update id="update" parameterType="OrderSummary">
+		update ordersummary set paymethod_id=#{paymethod_id}, totalbuy=#{totalbuy}, totalpay=#{totalpay} where ordersummary_id=#{ordersummary_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from ordersummary where ordersummary_id=#{ordersummary_id}
+	</delete>
+</mapper>
