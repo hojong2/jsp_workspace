@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.academy.shopping.exception.FileException;
 import com.academy.shopping.exception.UploadException;
 import com.academy.shopping.model.domain.Product;
 
@@ -56,6 +57,16 @@ public class FileManager {
 			e.printStackTrace();
 		}
 		return file;
+	}
+	
+	//파일 삭제
+	public void removeFile(String path) throws FileException{
+		File file = new File(path);  //지정한 경로의 파일에 대한 객체를 생성
+		boolean result = file.delete();
+		if(result==false) {
+			System.out.println(path);
+			throw new FileException("파일 삭제 실패");
+		}
 	}
 	
 	public static void main(String[] args) {

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,7 +49,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/admin/product/registform")
-	public ModelAndView getRegistform() {
+	public ModelAndView getRegistform(HttpServletRequest request) {
 		ModelAndView mav= new ModelAndView("admin/product/regist");
 		return mav;
 	}
@@ -76,6 +77,14 @@ public class ProductController {
 		return mav;
 	}
 	
+	@GetMapping("/admin/product/view")
+	public ModelAndView getDetail(HttpServletRequest request, @RequestParam(defaultValue = "0") int product_id) {
+		Product product = productService.select(product_id);
+		ModelAndView mav = new ModelAndView("/admin/product/detail");
+		mav.addObject("product", product);
+		return mav;
+	}
+	
 	@ExceptionHandler(UploadException.class)
 	public ModelAndView handleException(UploadException e) {
 		ModelAndView mav = new ModelAndView("admin/error/result");
@@ -94,6 +103,14 @@ public class ProductController {
 	public ModelAndView detail(Product product) {
 		ModelAndView mav = new ModelAndView("admin/product/detail");
 		mav.addObject(product);
+		return mav;
+	}
+	
+	@PostMapping("/admin/product/delete")
+	public ModelAndView delete(HttpServletRequest request, Product product) {
+		String dest=request.getServletContext().getRealPath("/resources/data");
+		productService.remove(product, dest);
+		ModelAndView mav = new ModelAndView("redirect:/admin/product/list");
 		return mav;
 	}
 	

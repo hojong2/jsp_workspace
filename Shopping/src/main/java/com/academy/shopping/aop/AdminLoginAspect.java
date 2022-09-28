@@ -32,7 +32,12 @@ public class AdminLoginAspect {
 		HttpSession session=null;
 		String uri=request.getRequestURI();
 		//로그인 필요 유무에 따라 나눈다
-		if(uri.equals("/admin/loginform")) {
+		if(
+				uri.equals("/admin/loginform") ||
+				uri.equals("/admin/registform") ||
+				uri.equals("/admin/product/registform") ||
+				uri.equals("/admin/product/regist")
+			) {
 			returnObj = joinPoint.proceed();
 		}else {
 			if(request !=null) {

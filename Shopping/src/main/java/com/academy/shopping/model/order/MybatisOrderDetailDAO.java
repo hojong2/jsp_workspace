@@ -23,7 +23,6 @@ public class MybatisOrderDetailDAO implements OrderDetailDAO{
 
 	@Override
 	public OrderDetail selectByOrderSummaryId(int ordersummary_id) {
-		
 		return null;
 	}
 

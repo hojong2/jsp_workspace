@@ -1,9 +1,11 @@
+<%@page import="com.academy.shopping.model.domain.OrderSummary"%>
 <%@page import="com.academy.shopping.model.domain.Product"%>
 <%@page import="java.util.List"%>
 <%@page import="com.academy.shopping.model.domain.TopCategory"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%
-	List<Product> productList= (List)request.getAttribute("productList");
+	List <OrderSummary> orderSummaryList = (List) request.getAttribute("orderSummaryList");
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,12 +13,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Advanced form elements</title>
-	<%@ include file="../inc/header_link.jsp" %>
-</head>
 
+   <%@ include file="../inc/header_link.jsp" %>
+</head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-  <%@ include file="../inc/topbar.jsp" %>
+
+  <%@ include file="../inc/topbar.jsp" %> 
   <%@ include file="../inc/sidebar.jsp" %>
 
   <!-- Content Wrapper. Contains page content -->
@@ -24,6 +27,24 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Advanced Form</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Advanced Form</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+            <!-- /.row -->
         <div class="row">
           <div class="col-12">
             <div class="card">
@@ -47,50 +68,54 @@
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
+                      
                       <th>No</th>
-                      <th>Name</th>
-                      <th>Category</th>
-                      <th>Brand</th>
-                      <th>Price</th>
-                      <th>Discount</th>
-                      <th>Memo</th>
-                      <th>Img</th>
+                      <th>주문번호</th>
+                      <th>구매자</th>
+                      <th>결제 방법</th>
+                      <th>총 구매금액</th>
+                      <th>결제금액</th>
+                      <th>주문일시</th>
+                     
                     </tr>
                   </thead>
+                  
                   <tbody>
-                   <%for(int i=0; i<productList.size(); i++){ %>
-                    <%Product product = productList.get(i); %>
+                  
+                  <%for(int i = 0; i < orderSummaryList.size(); i++) { %>
+                  <% OrderSummary orderSummary = orderSummaryList.get(i); %>
                     <tr>
-                      <td><%=product.getProduct_id() %></td>
-                      <td><%=product.getSubcategory().getCategory_name()%></td>
-                      <td><%=product.getProduct_name() %></td>
-                      <td><%=product.getBrand() %></td>
-                      <td><%=product.getPrice() %></td>
-                      <td><%=product.getDiscount() %></td>
-                      <td><%=product.getMemo() %></td>
-                      <td><a href="/admin/product/view?product_id=<%=product.getProduct_id()%>"><img src="/static/data/<%=product.getProduct_img()%>" width="45px"></a></td>
+                      <td><%=i %></td>
+                      <td><a href="/admin/order/detail?ordersummary_id=<%=orderSummary.getOrdersummary_id()%>"><%=orderSummary.getOrdersummary_id()%></td>
+                      <td><%= orderSummary.getMember().getCustomer_name()%></td>
+                      <td><%= orderSummary.getPaymethod().getPayname()%></td>
+                      <td><%=orderSummary.getTotalbuy() %></td>
+                      <td><%= orderSummary.getTotalpay()%></td>
+                      <td><%=orderSummary.getBuydate()%></td>
                     </tr>
-                    <%} %>
+                     <% } %>
                   </tbody>
                 </table>
+                
                 <button class="btn btn-primary" onClick="location.href='/admin/product/registform';">상품등록</button>
                 <button class="btn btn-primary" onClick="showExcel()">엑셀등록</button>
                 <div style="display: none" id="excel-area">
-                	<form id="excel-form">
-                		<input type="file" name="excel">
-                		<button type="button" class="btn btn-primary" onClick="registExcel()">등록</button>
-                	</form>
-                </div>
+                <form id="excel-form">
+                <input type="file" name="excel">
+                <button type="button" class="btn btn-info" onClick="registExcel()">등록</button>
+              </form>
+              </div>
               </div>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+        <!-- /.row -->
+        
+      </div>
+      <!-- /.container-fluid -->
     </section>
-
-    
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -108,6 +133,7 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
 
 <!-- jQuery -->
 <script src="/static/admin/plugins/jquery/jquery.min.js"></script>

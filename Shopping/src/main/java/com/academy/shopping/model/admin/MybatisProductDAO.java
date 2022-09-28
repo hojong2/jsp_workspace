@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.academy.shopping.exception.ProductException;
 import com.academy.shopping.model.domain.Product;
 
 @Repository
@@ -42,7 +43,11 @@ public class MybatisProductDAO implements ProductDAO{
 	}
 
 	@Override
-	public void delete(Product product) {
+	public void delete(Product product) throws ProductException {
+		int result=sqlSessionTemplate.delete("Product.delete", product);
+		if(result==0) {
+			throw new ProductException("상품 삭제 실패");
+		}
 	}
 	
 }

@@ -6,10 +6,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.academy.shopping.exception.AdminException;
 import com.academy.shopping.exception.EmailException;
+import com.academy.shopping.exception.FileException;
 import com.academy.shopping.exception.MemberException;
 import com.academy.shopping.exception.OrderDetailException;
 import com.academy.shopping.exception.OrderSummaryException;
 import com.academy.shopping.exception.PayMethodException;
+import com.academy.shopping.exception.ProductException;
 
 @ControllerAdvice
 public class GlobalExceptionAspect {
@@ -55,6 +57,22 @@ public class GlobalExceptionAspect {
 	
 	@ExceptionHandler(EmailException.class)
 	public ModelAndView handleException(EmailException e) {
+		System.out.println("글로벌");
+		ModelAndView mav = new ModelAndView("shop/error/result");
+		mav.addObject("e",e);
+		return mav;
+	}
+	
+	@ExceptionHandler(ProductException.class)
+	public ModelAndView handleException(ProductException e) {
+		System.out.println("글로벌");
+		ModelAndView mav = new ModelAndView("shop/error/result");
+		mav.addObject("e",e);
+		return mav;
+	}
+	
+	@ExceptionHandler(FileException.class)
+	public ModelAndView handleException(FileException e) {
 		System.out.println("글로벌");
 		ModelAndView mav = new ModelAndView("shop/error/result");
 		mav.addObject("e",e);

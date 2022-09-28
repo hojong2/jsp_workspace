@@ -140,7 +140,7 @@ public class ShopPaymentController {
 		orderSummary.setOrderDetailList(orderDetailList);
 		orderSummaryService.order(orderSummary);
 		mav.addObject("orderSummary", orderSummary);
-		mailFormReader.setPath(request.getServletContext().getRealPath("/resources/email.MailForm.html"));
+		mailFormReader.setPath(request.getServletContext().getRealPath("/resources/email/MailForm.html"));
 		System.out.println("컨트롤러에서 "+mailFormReader.getPath());
 		return mav;
 	}

@@ -71,7 +71,7 @@ margin:5px;
 		                <div class="form-group">
 		                  <label>상위 카테고리</label>
 	
-		                  <select class="form-control select" style="width: 100%;" size="7" name="top">
+		                  <select class="form-control select" style="width: 100%;" size="7" name="top" id="top">
 		                  	<option><%=product.getSubcategory().getTopcategory().getCategory_name()%></option>
 		                  </select>
 		                </div>
@@ -82,8 +82,7 @@ margin:5px;
 		                <div class="form-group">
 		                  <label>하위 카테고리</label>
 	
-		                  <select class="form-control select" style="width: 100%;" size="7" name="subcategory.subcategory_id">
-		                  	<option><%=product.getSubcategory().getCategory_name()%></option>
+		                  <select class="form-control select" style="width: 100%;" size="7" name="subcategory.subcategory_id" id="sub">
 		                  </select>
 		                </div>
 		                              
@@ -91,16 +90,19 @@ margin:5px;
 	                </div>
 	                
 		            	<div class="col-md-9">
+		            		<input type="hidden" name="product_id" value="<%=product.getProduct_id() %>">
 		            		<input type="text" name="product_name" class="form-control" value=<%=product.getProduct_name() %>>
 		            		<input type="text" name="brand" class="form-control" value=<%=product.getBrand() %>>
 		            		<input type="number" name="price" class="form-control" value=<%=product.getPrice() %>>
 		            		<input type="number" name="discount" class="form-control" value=<%=product.getDiscount() %>>
-		            		<textarea class="form-control" value=<%=product.getMemo()%> name="memo"></textarea>
-		            		<textarea class="form-control" value=<%=product.getDetail() %> id="summernote" style="height:200px" name="detail"></textarea>
+		            		<textarea class="form-control" name="memo"><%=product.getMemo()%></textarea>
+		            		<textarea class="form-control" id="summernote" style="height:200px" name="detail"><%=product.getDetail()%></textarea>
 		            		<img src="/static/data/<%=product.getProduct_img()%>" width="45px">
+		            		<input type="hidden"  name="product_img" value="<%=product.getProduct_img()%>">
 		            		
 		            		
-		            		<button type="button" class="btn btn-warning" onClick="registProduct()">상품 등록</button>
+		            		<button type="button" class="btn btn-warning" onClick="editProduct()">상품 수정</button>
+		            		<button type="button" class="btn btn-warning" onClick="deleteProduct()">상품 삭제</button>
 		            		<button type="button" class="btn btn-primary" onClick="location.href='/admin/product/list';">목록 보기</button>
 		            	</div>
 	
@@ -170,6 +172,50 @@ margin:5px;
 <!-- AdminLTE for demo purposes -->
 <!-- Page specific script -->
 <script>
+//동기 삭제
+/*
+function deleteProduct(){
+	if(confirm("정말 삭제하시겠습니까?")){
+		$("form").attr({
+			"action":"/admin/product/delete",
+			"method":"post",
+		});
+		$("form").submit();
+	}
+}
+*/
+//비동기 삭제
+function deleteProduct(){
+	//기존의 폼양식을 전송할 수 있도록 쪼개자, key-value 쌍으로 분리시킴
+	var formArray=$("form").serializeArray();
+	
+	//1안
+	//서버에 전송시 json으로 보내기
+	var json={};
+	for(var i=0; i<formArray.length; i++){
+		json[formArray[i].name]=formArray[i].value;
+	}
+	console.log(json);
+
+	if(confirm("정말 삭제하시겠습니까?")){
+		$.ajax({
+			url:"/rest/admin/product/delete",
+			type:"post",
+			data:JSON.stringify(json),
+			contentType:"application/json;charset=utf-8",  //서버에게 이 자료가 json 형태라는 것을 알려줌(헤더에서)
+			processData:false,  //query string화 시키지 않도록 방지
+			success:function(result, status, xhr){
+				alert(result);
+				location.href="/admin/product/list";
+			}
+		});
+	}
+	//2안
+	//formdata 사용
+	//var formData = 
+
+}
+
 function getTopList(){
 	$.ajax({
 		url:"/rest/admin/topcategory",
@@ -185,7 +231,11 @@ function printTopList(jsonList){
 	var tag="";
 	for(var i=0; i<jsonList.length; i++){
 		var topcategory=jsonList[i];
-		tag+="<option value=\""+topcategory.topcategory_id+"\">"+topcategory.category_name+"</option>";
+		if(<%=product.getSubcategory().getTopcategory().getTopcategory_id()%>==i+1){
+			tag+="<option value=\""+topcategory.topcategory_id+"\" selected>"+topcategory.category_name+"</option>";
+		}else{
+			tag+="<option value=\""+topcategory.topcategory_id+"\">"+topcategory.category_name+"</option>";
+		}
 	}
 	$(sel).append(tag);
 }
@@ -209,9 +259,14 @@ function printSubList(jsonList){
 	var sel=$("select[name='subcategory.subcategory_id']");
 	$(sel).empty();  //기존 카테고리 초기화
 	var tag="";
+
 	for(var i=0; i<jsonList.length; i++){
 		var subcategory=jsonList[i];
+		if(<%=product.getSubcategory().getSubcategory_id()%>==i+1){
+			tag+="<option value=\""+subcategory.subcategory_id+"\" selected>"+subcategory.category_name+"</option>";
+		}else{
 		tag+="<option value=\""+subcategory.subcategory_id+"\">"+subcategory.category_name+"</option>";
+		}
 	}
 	$(sel).append(tag);
 }
@@ -235,10 +290,7 @@ $(function(){
 	 });
 	getTopList();
 	
-	$($("select")[0]).change(function(){
-		//alert("당신이 선택한 아이템의 value값은 "+ $(this).val())
-		getSubList($(this).val());
-	});
+	getSubList(<%=product.getSubcategory().getTopcategory().getTopcategory_id()%>);
 })
 
 </script>

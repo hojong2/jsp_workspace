@@ -74,8 +74,12 @@ public class ProductServiceImpl implements ProductService{
 	public void update(Product product) {
 	}
 
-	@Override
-	public void delete(Product product) {
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void remove(Product product, String dest) {
+		//파일 삭제
+		fileManager.removeFile(dest);
+		//db 삭제
+		productDAO.delete(product);
 	}
 
 	@Override

@@ -13,6 +13,6 @@ public interface ProductService {
 	public void regist(Product product, String savePath);
 	public void registByExcel(File file, String read, String des);  //엑셀 파일을 매개변수로 넘김
 	public void update(Product product);
-	public void delete(Product product);
+	public void remove(Product product, String dest);  //파일삭제+db삭제
 	
 }

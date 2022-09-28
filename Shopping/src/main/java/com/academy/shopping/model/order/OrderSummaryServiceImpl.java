@@ -1,6 +1,7 @@
 package com.academy.shopping.model.order;
 
-import org.apache.xmlbeans.impl.xb.xsdschema.ListDocument.List;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -50,8 +51,8 @@ public class OrderSummaryServiceImpl implements OrderSummaryService{
 
 	@Override
 	public List selectAll() {
-		
-		return null;
+		List orderList = orderSummaryDAO.selectAll();
+		return orderList;
 	}
 
 	@Override
@@ -62,8 +63,8 @@ public class OrderSummaryServiceImpl implements OrderSummaryService{
 
 	@Override
 	public OrderSummary select(int ordersummary_id) {
-		
-		return null;
+		OrderSummary orderSummary = orderSummaryDAO.select(ordersummary_id);
+		return orderSummary;
 	}
 
 	@Override

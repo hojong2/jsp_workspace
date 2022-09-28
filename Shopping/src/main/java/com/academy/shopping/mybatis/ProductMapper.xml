@@ -28,6 +28,10 @@
 		select * from product where product_id=#{product_id}
 	</select>
 	
+	<delete id="delete" parameterType="Product">
+		delete product where product_id=#{product_id}
+	</delete>
+	
 	<!-- 
 	<select id="selectByTopId" parameterType="int" resultMap="productMap">
 		select * from product where subcategory_id in (select subcategory_id from topcategory where topcategory_id=#{topcategory_id})

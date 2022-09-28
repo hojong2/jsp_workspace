@@ -26,20 +26,19 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 
 	@Override
 	public List selectAll() {
-		
-		return null;
+		List list=sqlSessionTemplate.selectList("OrderSummary.selectAll");
+		return list;
 	}
 
 	@Override
 	public OrderSummary selectByCustomerId(Member member) {
-		
 		return null;
 	}
 
 	@Override
 	public OrderSummary select(int ordersummary_id) {
-		
-		return null;
+		OrderSummary orderSummary = sqlSessionTemplate.selectOne("OrderSummary.select", ordersummary_id);
+		return orderSummary;
 	}
 
 	@Override

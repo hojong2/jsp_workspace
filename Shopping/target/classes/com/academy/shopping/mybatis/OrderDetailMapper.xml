@@ -7,7 +7,7 @@
 		<association column="product_id" property="product" javaType="Product" select="Product.select"/>
 	</resultMap>
 	
-	<select id="selectByOrderSummaryId" parameterType="int" resultType="OrderDetail">
+	<select id="selectByOrderSummaryId" parameterType="int" resultMap="orderDetailMap">
 		select * from orderdetail where ordersummary_id=#{ordersummary_id}
 	</select>
 	
