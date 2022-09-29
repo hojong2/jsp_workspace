@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.academy.shopping.model.admin.ProductService;
 import com.academy.shopping.model.domain.Product;
@@ -32,5 +34,14 @@ public class ProductRestController {
 		Message message = new Message(1, "상품삭제 성공");
 		ResponseEntity<Message> entity= new ResponseEntity(message, HttpStatus.OK);
 		return entity;
+	}
+	
+	@PostMapping("/admin/product/update")
+	public ModelAndView update(Product product) {
+		MultipartFile multi = product.getPhoto();
+		
+		String filename= multi.getOriginalFilename();
+		System.out.println("업로드된 파일명은 "+filename);
+		return null;
 	}
 }

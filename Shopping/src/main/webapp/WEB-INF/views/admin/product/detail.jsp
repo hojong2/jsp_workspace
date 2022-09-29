@@ -99,6 +99,7 @@ margin:5px;
 		            		<textarea class="form-control" id="summernote" style="height:200px" name="detail"><%=product.getDetail()%></textarea>
 		            		<img src="/static/data/<%=product.getProduct_img()%>" width="45px">
 		            		<input type="hidden"  name="product_img" value="<%=product.getProduct_img()%>">
+		            		<input type="file" class="form-control" name="photo" >
 		            		
 		            		
 		            		<button type="button" class="btn btn-warning" onClick="editProduct()">상품 수정</button>
@@ -210,11 +211,9 @@ function deleteProduct(){
 			}
 		});
 	}
-	//2안
-	//formdata 사용
-	//var formData = 
 
 }
+
 
 function getTopList(){
 	$.ajax({
@@ -282,6 +281,34 @@ function registProduct(){
 		$("form").submit();
 	}
 	
+}
+
+//수정요청 - 비동기+파일업로드
+//FormData - json만으로 보낼 수 없었던, 바이너리 파일까지도 보낼 수 있다.
+function editProduct(){
+	//기존폼을 시리얼: 폼 양식 요소들을 key-value 쌍으로 구성하여 배열로 반환
+	var formArray = $("form").serializeArray();
+	
+	//json 대신 바이너리 파일을 포함할 수 있는 FormData를 이용하자
+	var formData = new FormData();
+	for(var i=0; i<formArray.length; i++){
+		formData.append(formArray[i].name, formArray[i].value);
+	}
+	//특히 input type="file" 컴포넌트는 텍스트가 아니므로, 실제 선택한 파일을 포함
+	formData.append("photo", $("input[name='photo']")[0].files[0]);
+	console.log(formData);
+	//ajax 전송
+	$.ajax({
+		url:"/rest/admin/product/update",
+		type:"post",
+		data:formData,
+		enctype:"multipart/form-data",
+		contentType:false,  //문자열화 시킴 방지(바이너리 파일이 포함될 경우 이 속성을 false로 바꿔준다)
+		processData:false,  //문자열화 시킴 방지(바이너리 파일이 포함될 경우 이 속성을 false로 바꿔준다)
+		success:function(result, status, xhr){
+			alert(result);
+		}
+	})
 }
 
 $(function(){
